@@ -107,7 +107,6 @@ class Coordinator: NSObject, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let allowedCharacterSet = CharacterSet.letters
 
-        // Se a string de substituição for vazia, é uma deleção
         if string.isEmpty {
             let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
             parent.bindingText = newText
@@ -116,10 +115,20 @@ class Coordinator: NSObject, UITextFieldDelegate {
             let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
             if newText.count == 1 {
                 parent.bindingText = newText
+                focusNextTextField(after: textField)
             }
         }
 
         return false
+    }
+
+    func focusNextTextField(after textField: UITextField) {
+        guard let parentView = textField.superview,
+              let nextTextField = parentView.viewWithTag(textField.tag + 1) as? UITextField else {
+            return
+        }
+
+        nextTextField.becomeFirstResponder()
     }
 
 
@@ -139,8 +148,11 @@ struct TextView: UIViewRepresentable {
     func makeUIView(context: Context) -> UITextField {
         let textField = UITextField()
         textField.delegate = context.coordinator
+        textField.tag = context.coordinator.parent.bindingText.count  // Adiciona uma tag única para cada text field
+        textField.textAlignment = .center
         return textField
     }
+
 
     func updateUIView(_ uiView: UITextField, context: Context) {
         uiView.text = bindingText
