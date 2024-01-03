@@ -101,7 +101,7 @@ struct GamingView: View {
             let startIndex = wordIndex * numberOfColumns.max()!
             let endIndex = startIndex + numberOfColumns[wordIndex]
             let userAnswerForWord = userAnswers[startIndex..<endIndex].joined().lowercased()
-            let correctAnswerForWord = correctAnswers[wordIndex].lowercased()
+            let correctAnswerForWord = words[wordIndex].lowercased()
 
             if userAnswerForWord != correctAnswerForWord {
                 return false
