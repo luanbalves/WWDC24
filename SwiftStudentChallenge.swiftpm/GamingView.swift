@@ -4,8 +4,8 @@
 //
 //  Created by Luan Alves Barroso on 02/01/24.
 //
-//    let words = ["simple", "is", "harder", "than", "complex"]
-//    let numberOfColumns = [6, 2, 6, 4, 7]
+//    let words = ["simple", "can", "be", "harder", "than", "complex"]
+//    let numberOfColumns = [6, 3, 2, 6, 4, 7]
 
 import SwiftUI
 
