@@ -12,12 +12,12 @@ import SwiftUI
 struct GamingView: View {
     let words = ["EU", "ESTOU", "DESENVOLVENDO"]
     let numberOfColumns = [2, 5, 13]
-    
+
     @State private var currentWordIndex = 0
     @State private var feedbackMessage: String? = nil
     @State private var showTextField = false
     @State private var userAnswers: [String] = []
-    
+
     var body: some View {
         VStack {
             if currentWordIndex < words.count {
@@ -26,29 +26,29 @@ struct GamingView: View {
                     .padding()
                     .opacity(showTextField ? 0 : 1)
             }
-            
+
             if showTextField {
                 VStack {
                     ForEach(0..<numberOfColumns.count, id: \.self) { colIndex in
                         HStack {
                             ForEach(0..<numberOfColumns[colIndex], id: \.self) { rowIndex in
                                 let index = rowIndex + colIndex * numberOfColumns.max()!
-                                
+
                                 if index < userAnswers.count {
                                     let isCorrect = isLetterCorrect(wordIndex: colIndex, letterIndex: rowIndex, userAnswer: userAnswers[index])
 
-                                           
-                                    TextView(bindingText: $userAnswers[index], onEditingChanged: { _ in }, isCorrect: isCorrect)
+                                    TextField("", text: $userAnswers[index])
                                         .multilineTextAlignment(.center)
                                         .frame(width: 50, height: 50)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color.black, lineWidth: 1)
+                                                .stroke(isCorrect ? Color.green : Color.red, lineWidth: 1)
                                         )
                                         .keyboardType(.alphabet)
-                                        .onReceive(NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification)) { _ in
-                                            if userAnswers[index].count > 1 {
-                                                userAnswers[index] = String(userAnswers[index].prefix(1))
+                                        .onChange(of: userAnswers[index]) { newValue in
+                                            if newValue.count > 1 {
+                                                userAnswers[index] = String(newValue.prefix(1))
+                                                moveToNextField(index)
                                             }
                                         }
                                 }
@@ -58,7 +58,7 @@ struct GamingView: View {
                 }
                 .padding()
             }
-            
+
             Button("Verificar") {
                 checkAnswer()
             }
@@ -76,7 +76,7 @@ struct GamingView: View {
             startTimer()
         }
     }
-    
+
     private func allFieldsFilled() -> Bool {
         for wordIndex in 0..<words.count {
             let startIndex = wordIndex * numberOfColumns.max()!
@@ -87,8 +87,8 @@ struct GamingView: View {
         }
         return true
     }
-    
-    func startTimer() {
+
+    private func startTimer() {
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             if self.currentWordIndex < self.words.count - 1 {
                 self.currentWordIndex += 1
@@ -98,7 +98,7 @@ struct GamingView: View {
             }
         }
     }
-    
+
     private func areAnswersCorrect() -> Bool {
         for wordIndex in 0..<words.count {
             let startIndex = wordIndex * numberOfColumns.max()!
@@ -118,93 +118,30 @@ struct GamingView: View {
         let isCorrect = areAnswersCorrect()
         feedbackMessage = isCorrect ? "Correto!" : "Errado!"
     }
-    
+
     private func isLetterCorrect(wordIndex: Int, letterIndex: Int, userAnswer: String) -> Bool {
         let correctWord = words[wordIndex].lowercased()
-        
+
         if letterIndex < correctWord.count {
             let correctLetter = String(correctWord[correctWord.index(correctWord.startIndex, offsetBy: letterIndex)])
             return userAnswer.lowercased() == correctLetter
         }
-        
-        return false
-    }
-
-
-
-
-}
-
-class Coordinator: NSObject, UITextFieldDelegate {
-    var parent: TextView
-
-    init(_ parent: TextView) {
-        self.parent = parent
-    }
-
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let allowedCharacterSet = CharacterSet.letters
-
-        if string.isEmpty {
-            let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
-            parent.bindingText = newText
-        } else if string.count == 1, let newCharacter = string.first,
-            newCharacter.unicodeScalars.allSatisfy({ allowedCharacterSet.contains($0) }) {
-            let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
-            if newText.count == 1 {
-                parent.bindingText = newText
-                focusNextTextField(after: textField)
-            }
-        }
 
         return false
     }
 
-    func focusNextTextField(after textField: UITextField) {
-        guard let parentView = textField.superview,
-              let nextTextField = parentView.viewWithTag(textField.tag + 1) as? UITextField else {
-            return
+    private func moveToNextField(_ currentIndex: Int) {
+        // Lógica para mover para o próximo campo
+        guard currentIndex < userAnswers.count - 1 else { return }
+        let nextIndex = currentIndex + 1
+        withAnimation {
+            userAnswers[nextIndex] = ""
         }
-
-        nextTextField.becomeFirstResponder()
-    }
-
-
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        parent.onEditingChanged(true)
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        parent.onEditingChanged(false)
     }
 }
 
-struct TextView: UIViewRepresentable {
-    @Binding var bindingText: String
-    var onEditingChanged: (Bool) -> Void
-    var isCorrect: Bool
-    
-    func makeUIView(context: Context) -> UITextField {
-        let textField = UITextField()
-        textField.delegate = context.coordinator
-        textField.tag = context.coordinator.parent.bindingText.count
-        textField.textAlignment = .center
-        textField.font = UIFont.systemFont(ofSize: 26)
-
-        return textField
+struct GamingView_Previews: PreviewProvider {
+    static var previews: some View {
+        GamingView()
     }
-
-
-    func updateUIView(_ uiView: UITextField, context: Context) {
-        uiView.text = bindingText
-        uiView.textColor = isCorrect ? .green : .red
-    }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-}
-
-#Preview {
-    GamingView()
 }
