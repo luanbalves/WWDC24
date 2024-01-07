@@ -139,8 +139,6 @@ struct GamingView: View {
     }
 }
 
-struct GamingView_Previews: PreviewProvider {
-    static var previews: some View {
-        GamingView()
-    }
+#Preview {
+    GamingView()
 }
