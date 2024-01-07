@@ -189,6 +189,8 @@ struct TextView: UIViewRepresentable {
         textField.delegate = context.coordinator
         textField.tag = context.coordinator.parent.bindingText.count
         textField.textAlignment = .center
+        textField.font = UIFont.systemFont(ofSize: 26)
+
         return textField
     }
 
