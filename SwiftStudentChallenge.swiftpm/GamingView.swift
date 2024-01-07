@@ -4,13 +4,14 @@
 //
 //  Created by Luan Alves Barroso on 02/01/24.
 //
+//    let words = ["simple", "is", "harder", "than", "complex"]
+//    let numberOfColumns = [6, 2, 6, 4, 7]
 
 import SwiftUI
 
 struct GamingView: View {
     let words = ["EU", "ESTOU", "DESENVOLVENDO"]
     let numberOfColumns = [2, 5, 13]
-    var correctAnswers: [String] { words.map { String($0.map { _ in " " }) } }
     
     @State private var currentWordIndex = 0
     @State private var feedbackMessage: String? = nil
@@ -34,16 +35,18 @@ struct GamingView: View {
                                 let index = rowIndex + colIndex * numberOfColumns.max()!
                                 
                                 if index < userAnswers.count {
-                                    TextView(bindingText: $userAnswers[index], onEditingChanged: { _ in })
+                                    let isCorrect = isLetterCorrect(wordIndex: colIndex, letterIndex: rowIndex, userAnswer: userAnswers[index])
+
+                                           
+                                    TextView(bindingText: $userAnswers[index], onEditingChanged: { _ in }, isCorrect: isCorrect)
                                         .multilineTextAlignment(.center)
-                                        .frame(width: 30, height: 30)
+                                        .frame(width: 50, height: 50)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 10)
                                                 .stroke(Color.black, lineWidth: 1)
                                         )
                                         .keyboardType(.alphabet)
                                         .onReceive(NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification)) { _ in
-                                            // Garante que apenas uma letra é permitida
                                             if userAnswers[index].count > 1 {
                                                 userAnswers[index] = String(userAnswers[index].prefix(1))
                                             }
@@ -115,6 +118,20 @@ struct GamingView: View {
         let isCorrect = areAnswersCorrect()
         feedbackMessage = isCorrect ? "Correto!" : "Errado!"
     }
+    
+    private func isLetterCorrect(wordIndex: Int, letterIndex: Int, userAnswer: String) -> Bool {
+        let correctWord = words[wordIndex].lowercased()
+        
+        if letterIndex < correctWord.count {
+            let correctLetter = String(correctWord[correctWord.index(correctWord.startIndex, offsetBy: letterIndex)])
+            return userAnswer.lowercased() == correctLetter
+        }
+        
+        return false
+    }
+
+
+
 
 }
 
@@ -165,11 +182,12 @@ class Coordinator: NSObject, UITextFieldDelegate {
 struct TextView: UIViewRepresentable {
     @Binding var bindingText: String
     var onEditingChanged: (Bool) -> Void
-
+    var isCorrect: Bool
+    
     func makeUIView(context: Context) -> UITextField {
         let textField = UITextField()
         textField.delegate = context.coordinator
-        textField.tag = context.coordinator.parent.bindingText.count  // Adiciona uma tag única para cada text field
+        textField.tag = context.coordinator.parent.bindingText.count
         textField.textAlignment = .center
         return textField
     }
@@ -177,6 +195,7 @@ struct TextView: UIViewRepresentable {
 
     func updateUIView(_ uiView: UITextField, context: Context) {
         uiView.text = bindingText
+        uiView.textColor = isCorrect ? .green : .red
     }
 
     func makeCoordinator() -> Coordinator {
