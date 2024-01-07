@@ -131,7 +131,6 @@ struct GamingView: View {
     }
 
     private func moveToNextField(_ currentIndex: Int) {
-        // Lógica para mover para o próximo campo
         guard currentIndex < userAnswers.count - 1 else { return }
         let nextIndex = currentIndex + 1
         withAnimation {
