@@ -53,9 +53,9 @@ struct GamingView: View {
                                         }
                                 }
                             }
-                        }
+                        } //: HSTACK
                     }
-                }
+                } //: VSTACK
                 .padding()
             }
 
@@ -70,7 +70,7 @@ struct GamingView: View {
                     .foregroundColor(feedbackMessage == "Correto!" ? .green : .red)
                     .padding()
             }
-        }
+        } //: VSTACK
         .onAppear {
             userAnswers = Array(repeating: "", count: numberOfColumns.max()! * words.count)
             startTimer()
