@@ -26,7 +26,7 @@ struct GamingView: View {
                     .padding()
                     .opacity(showTextField ? 0 : 1)
             }
-
+            
             if showTextField {
                 VStack {
                     ForEach(0..<numberOfColumns.count, id: \.self) { colIndex in
@@ -55,6 +55,22 @@ struct GamingView: View {
                             }
                         } //: HSTACK
                     }
+                    KeyboardView(onKeyPress: { key in
+                                        if key == "Delete" {
+                                            guard let lastNonEmptyFieldIndex = userAnswers.lastIndex(where: { !$0.isEmpty }) else {
+                                                return
+                                            }
+
+                                            userAnswers[lastNonEmptyFieldIndex] = ""
+                                        } else {
+                                            guard let firstEmptyFieldIndex = userAnswers.firstIndex(where: { $0.isEmpty }) else {
+                                                return
+                                            }
+
+                                            userAnswers[firstEmptyFieldIndex] = key
+                                            moveToNextField(firstEmptyFieldIndex)
+                                        }
+                                    })
                 } //: VSTACK
                 .padding()
             }
