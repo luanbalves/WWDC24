@@ -28,7 +28,7 @@ struct ContentView: View {
 //                .background(Color.cyan)
 //                .clipShape(RoundedRectangle(cornerRadius: 10))
                 
-                NavigationLink(destination: GamingView()) {
+                NavigationLink(destination: GamingView(userAnswer: [""], userAnswer1: [""], userAnswer2: [""], userAnswer3: [""], userAnswer4: [""], userAnswer5: [""])) {
                     HStack(spacing: 5){
                         Image(systemName: "play.circle")
                         Text("START")

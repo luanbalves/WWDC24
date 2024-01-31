@@ -10,141 +10,26 @@
 import SwiftUI
 
 struct GamingView: View {
-    let words = ["EU", "ESTOU", "DESENVOLVENDO"]
-    let numberOfColumns = [2, 5, 13]
-
-    @State private var currentWordIndex = 0
-    @State private var feedbackMessage: String? = nil
-    @State private var showTextField = false
-    @State private var userAnswers: [String] = []
+    @State var userAnswer: [String]
+    @State var userAnswer1: [String]
+    @State var userAnswer2: [String]
+    @State var userAnswer3: [String]
+    @State var userAnswer4: [String]
+    @State var userAnswer5: [String]
 
     var body: some View {
         VStack {
-            if currentWordIndex < words.count {
-                Text(words[currentWordIndex])
-                    .font(.title)
-                    .padding()
-                    .opacity(showTextField ? 0 : 1)
-            }
+            Squares(userAnswers: $userAnswer, wordCount: 6)
+            Squares(userAnswers: $userAnswer1, wordCount: 3)
+            Squares(userAnswers: $userAnswer2, wordCount: 2)
+            Squares(userAnswers: $userAnswer3, wordCount: 6)
+            Squares(userAnswers: $userAnswer4, wordCount: 4)
+            Squares(userAnswers: $userAnswer5, wordCount: 7)
             
-            if showTextField {
-                VStack {
-                    ForEach(0..<numberOfColumns.count, id: \.self) { colIndex in
-                        HStack {
-                            ForEach(0..<numberOfColumns[colIndex], id: \.self) { rowIndex in
-                                let index = rowIndex + colIndex * numberOfColumns.max()!
-
-                                if index < userAnswers.count {
-                                    let isCorrect = isLetterCorrect(wordIndex: colIndex, letterIndex: rowIndex, userAnswer: userAnswers[index])
-
-                                    TextField("", text: $userAnswers[index])
-                                        .multilineTextAlignment(.center)
-                                        .frame(width: 50, height: 50)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(isCorrect ? Color.green : Color.red, lineWidth: 1)
-                                        )
-                                        .keyboardType(.alphabet)
-                                        .onChange(of: userAnswers[index]) { newValue in
-                                            if newValue.count > 1 {
-                                                userAnswers[index] = String(newValue.prefix(1))
-                                            }
-                                        }
-                                }
-                            }
-                        } //: HSTACK
-                    }
-                    KeyboardView(onKeyPress: { key in
-                                        if key == "Delete" {
-                                            guard let lastNonEmptyFieldIndex = userAnswers.lastIndex(where: { !$0.isEmpty }) else {
-                                                return
-                                            }
-
-                                            userAnswers[lastNonEmptyFieldIndex] = ""
-                                        } else {
-                                            guard let firstEmptyFieldIndex = userAnswers.firstIndex(where: { $0.isEmpty }) else {
-                                                return
-                                            }
-
-                                            userAnswers[firstEmptyFieldIndex] = key
-                                        }
-                                    })
-                } //: VSTACK
-                .padding()
-            }
-
-            Button("Verificar") {
-                checkAnswer()
-            }
-            .padding()
-            .disabled(!allFieldsFilled() || !showTextField)
-
-            if let feedbackMessage = feedbackMessage {
-                Text(feedbackMessage)
-                    .foregroundColor(feedbackMessage == "Correto!" ? .green : .red)
-                    .padding()
-            }
-        } //: VSTACK
-        .onAppear {
-            userAnswers = Array(repeating: "", count: numberOfColumns.max()! * words.count)
-            startTimer()
         }
-    }
-
-    private func allFieldsFilled() -> Bool {
-        for wordIndex in 0..<words.count {
-            let startIndex = wordIndex * numberOfColumns.max()!
-            let endIndex = startIndex + numberOfColumns[wordIndex]
-            if endIndex <= userAnswers.count && !userAnswers[startIndex..<endIndex].allSatisfy({ !$0.isEmpty }) {
-                return false
-            }
-        }
-        return true
-    }
-
-    private func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            if self.currentWordIndex < self.words.count - 1 {
-                self.currentWordIndex += 1
-            } else {
-                timer.invalidate()
-                self.showTextField = true
-            }
-        }
-    }
-
-    private func areAnswersCorrect() -> Bool {
-        for wordIndex in 0..<words.count {
-            let startIndex = wordIndex * numberOfColumns.max()!
-            let endIndex = startIndex + numberOfColumns[wordIndex]
-            let userAnswerForWord = userAnswers[startIndex..<endIndex].joined().lowercased()
-            let correctAnswerForWord = words[wordIndex].lowercased()
-
-            if userAnswerForWord != correctAnswerForWord {
-                return false
-            }
-        }
-
-        return true
-    }
-
-    private func checkAnswer() {
-        let isCorrect = areAnswersCorrect()
-        feedbackMessage = isCorrect ? "Correto!" : "Errado!"
-    }
-
-    private func isLetterCorrect(wordIndex: Int, letterIndex: Int, userAnswer: String) -> Bool {
-        let correctWord = words[wordIndex].lowercased()
-
-        if letterIndex < correctWord.count {
-            let correctLetter = String(correctWord[correctWord.index(correctWord.startIndex, offsetBy: letterIndex)])
-            return userAnswer.lowercased() == correctLetter
-        }
-
-        return false
     }
 }
 
-#Preview {
-    GamingView()
-}
+//#Preview {
+//    GamingView(userAnswer: "...", userAnswer1: "...", userAnswer2: "...", userAnswer3: "...", userAnswer4: "...", userAnswer5: "...")
+//}
