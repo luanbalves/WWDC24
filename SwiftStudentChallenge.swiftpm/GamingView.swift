@@ -48,7 +48,6 @@ struct GamingView: View {
                                         .onChange(of: userAnswers[index]) { newValue in
                                             if newValue.count > 1 {
                                                 userAnswers[index] = String(newValue.prefix(1))
-                                                moveToNextField(index)
                                             }
                                         }
                                 }
@@ -68,7 +67,6 @@ struct GamingView: View {
                                             }
 
                                             userAnswers[firstEmptyFieldIndex] = key
-                                            moveToNextField(firstEmptyFieldIndex)
                                         }
                                     })
                 } //: VSTACK
@@ -144,14 +142,6 @@ struct GamingView: View {
         }
 
         return false
-    }
-
-    private func moveToNextField(_ currentIndex: Int) {
-        guard currentIndex < userAnswers.count - 1 else { return }
-        let nextIndex = currentIndex + 1
-        withAnimation {
-            userAnswers[nextIndex] = ""
-        }
     }
 }
 
