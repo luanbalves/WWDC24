@@ -11,8 +11,8 @@ struct KeyboardView: View {
     let rows = [
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-        ["Z", "X", "C", "V", "B", "N", "M", "Delete"],
-        ["Enter"]
+        ["Z", "X", "C", "V", "B", "N", "M"],
+        ["Delete", "Enter"]
     ]
     var onKeyPress: ((String) -> Void)?
     
@@ -29,8 +29,8 @@ struct KeyboardView: View {
                             }                        }) {
                                 Text(key)
                                     .font(.title)
-                                    .frame(width: key == "Enter" ? 120 : 60, height: 60)
-                                    .background(key == "Enter" ? Color.green : Color.blue)
+                                    .frame(width: key == "Enter" || key == "Delete" ? 120 : 60, height: 60)
+                                    .background(Color.gray)
                                     .foregroundColor(.white)
                                     .cornerRadius(8)
                             }
@@ -39,11 +39,6 @@ struct KeyboardView: View {
             }
         }
         .padding()
-    }
-    
-    func handleButtonPress(_ key: String) {
-        // Handle button press
-        print("Button pressed: \(key)")
     }
 }
 
