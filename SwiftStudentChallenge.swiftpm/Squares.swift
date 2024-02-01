@@ -22,7 +22,6 @@ struct Squares: View {
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color.red, lineWidth: 1)
                             )
-                    } else {
                     }
             }
         }
