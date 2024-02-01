@@ -15,15 +15,18 @@ struct Squares: View {
         HStack {
             ForEach(0..<wordCount, id: \.self) { index in
                 TextField("", text: $userAnswers[index])
-                        .multilineTextAlignment(.center)
-                        .frame(width: 50, height: 50)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.red, lineWidth: 1)
-                        )
-                }
+                    .multilineTextAlignment(.center)
+                    .frame(width: 50, height: 50)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.red, lineWidth: 1)
+                    )
             }
-        } //: HSTACK    }
+        }
+        .onAppear {
+            userAnswers = Array(repeating: "", count: wordCount)
+        }
+    }
 }
 
 //#Preview {

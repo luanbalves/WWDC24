@@ -26,7 +26,31 @@ struct GamingView: View {
             Squares(userAnswers: $userAnswer4, wordCount: 4)
             Squares(userAnswers: $userAnswer5, wordCount: 7)
             
+        }//: VSTACK
+        .onAppear {
+            userAnswer = Array(repeating: "", count: 6)
+            userAnswer1 = Array(repeating: "", count: 3)
+            userAnswer2 = Array(repeating: "", count: 2)
+            userAnswer3 = Array(repeating: "", count: 6)
+            userAnswer4 = Array(repeating: "", count: 4)
+            userAnswer5 = Array(repeating: "", count: 7)
         }
+        
+        KeyboardView(onKeyPress: { key in
+                            if key == "Delete" {
+                                guard let lastNonEmptyFieldIndex = userAnswer.lastIndex(where: { !$0.isEmpty }) else {
+                                    return
+                                }
+
+                                userAnswer[lastNonEmptyFieldIndex] = ""
+                            } else {
+                                guard let firstEmptyFieldIndex = userAnswer.firstIndex(where: { $0.isEmpty }) else {
+                                    return
+                                }
+
+                                userAnswer[firstEmptyFieldIndex] = key
+                            }
+                        })
     }
 }
 
