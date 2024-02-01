@@ -16,7 +16,14 @@ struct GamingView: View {
     @State var userAnswer3: [String]
     @State var userAnswer4: [String]
     @State var userAnswer5: [String]
-
+    @State private var count = 0
+    @State private var enterPressed = false
+    @State private var enterPressed1 = false
+    @State private var enterPressed2 = false
+    @State private var enterPressed3 = false
+    @State private var enterPressed4 = false
+    @State private var enterPressed5 = false
+    
     var body: some View {
         VStack {
             Squares(userAnswers: $userAnswer, wordCount: 6)
@@ -27,30 +34,152 @@ struct GamingView: View {
             Squares(userAnswers: $userAnswer5, wordCount: 7)
             
         }//: VSTACK
-//        .onAppear {
-//            userAnswer = Array(repeating: "", count: 6)
-//            userAnswer1 = Array(repeating: "", count: 3)
-//            userAnswer2 = Array(repeating: "", count: 2)
-//            userAnswer3 = Array(repeating: "", count: 6)
-//            userAnswer4 = Array(repeating: "", count: 4)
-//            userAnswer5 = Array(repeating: "", count: 7)
-//        }
+        //        .onAppear {
+        //            userAnswer = Array(repeating: "", count: 6)
+        //            userAnswer1 = Array(repeating: "", count: 3)
+        //            userAnswer2 = Array(repeating: "", count: 2)
+        //            userAnswer3 = Array(repeating: "", count: 6)
+        //            userAnswer4 = Array(repeating: "", count: 4)
+        //            userAnswer5 = Array(repeating: "", count: 7)
+        //        }
         
         KeyboardView(onKeyPress: { key in
-                            if key == "Delete" {
-                                guard let lastNonEmptyFieldIndex = userAnswer.lastIndex(where: { !$0.isEmpty }) else {
-                                    return
-                                }
-
-                                userAnswer[lastNonEmptyFieldIndex] = ""
-                            } else {
-                                guard let firstEmptyFieldIndex = userAnswer.firstIndex(where: { $0.isEmpty }) else {
-                                    return
-                                }
-
-                                userAnswer[firstEmptyFieldIndex] = key
-                            }
-                        })
+            
+            if key == "Enter" && userAnswer[5] != "" && enterPressed == false {
+                count = count + 1
+                enterPressed = true
+            }
+            if key == "Enter" && userAnswer1[2] != "" && enterPressed1 == false {
+                count = count + 1
+                enterPressed1 = true
+            }
+            if key == "Enter" && userAnswer2[1] != "" && enterPressed2 == false {
+                count = count + 1
+                enterPressed2 = true
+            }
+            if key == "Enter" && userAnswer3[5] != "" && enterPressed3 == false {
+                count = count + 1
+                enterPressed3 = true
+            }
+            if key == "Enter" && userAnswer4[3] != "" && enterPressed4 == false {
+                count = count + 1
+                enterPressed4 = true
+            }
+            if key == "Enter" && userAnswer5[6] != "" && enterPressed5 == false {
+                count = count + 1
+                enterPressed5 = true
+            }
+            
+            if count == 0 {
+                if key == "Delete" {
+                    guard let lastNonEmptyFieldIndex = userAnswer.lastIndex(where: { !$0.isEmpty }) else {
+                        return
+                    }
+                    
+                    userAnswer[lastNonEmptyFieldIndex] = ""
+                } else {
+                    guard let firstEmptyFieldIndex = userAnswer.firstIndex(where: { $0.isEmpty }) else {
+                        return
+                    }
+                    
+                    if key != "Enter" {
+                        userAnswer[firstEmptyFieldIndex] = key
+                    }
+                }
+            }
+            
+            if count == 1 {
+                if key == "Delete" {
+                    guard let lastNonEmptyFieldIndex = userAnswer1.lastIndex(where: { !$0.isEmpty }) else {
+                        return
+                    }
+                    
+                    userAnswer1[lastNonEmptyFieldIndex] = ""
+                } else {
+                    guard let firstEmptyFieldIndex = userAnswer1.firstIndex(where: { $0.isEmpty }) else {
+                        return
+                    }
+                    
+                    if key != "Enter" {
+                        userAnswer1[firstEmptyFieldIndex] = key
+                    }
+                }
+            }
+            
+            if count == 2 {
+                if key == "Delete" {
+                    guard let lastNonEmptyFieldIndex = userAnswer2.lastIndex(where: { !$0.isEmpty }) else {
+                        return
+                    }
+                    
+                    userAnswer2[lastNonEmptyFieldIndex] = ""
+                } else {
+                    guard let firstEmptyFieldIndex = userAnswer2.firstIndex(where: { $0.isEmpty }) else {
+                        return
+                    }
+                    if key != "Enter" {
+                        userAnswer2[firstEmptyFieldIndex] = key
+                    }
+                    
+                    //                    userAnswer2[firstEmptyFieldIndex] = key
+                }
+            }
+            
+            if count == 3 {
+                if key == "Delete" {
+                    guard let lastNonEmptyFieldIndex = userAnswer3.lastIndex(where: { !$0.isEmpty }) else {
+                        return
+                    }
+                    
+                    userAnswer3[lastNonEmptyFieldIndex] = ""
+                } else {
+                    guard let firstEmptyFieldIndex = userAnswer3.firstIndex(where: { $0.isEmpty }) else {
+                        return
+                    }
+                    
+                    if key != "Enter" {
+                        userAnswer3[firstEmptyFieldIndex] = key
+                    }
+                }
+            }
+            
+            if count == 4 {
+                if key == "Delete" {
+                    guard let lastNonEmptyFieldIndex = userAnswer4.lastIndex(where: { !$0.isEmpty }) else {
+                        return
+                    }
+                    
+                    userAnswer4[lastNonEmptyFieldIndex] = ""
+                } else {
+                    guard let firstEmptyFieldIndex = userAnswer4.firstIndex(where: { $0.isEmpty }) else {
+                        return
+                    }
+                    
+                    if key != "Enter" {
+                        userAnswer4[firstEmptyFieldIndex] = key
+                    }
+                }
+            }
+            
+            if count == 5 {
+                if key == "Delete" {
+                    guard let lastNonEmptyFieldIndex = userAnswer5.lastIndex(where: { !$0.isEmpty }) else {
+                        return
+                    }
+                    
+                    userAnswer5[lastNonEmptyFieldIndex] = ""
+                } else {
+                    guard let firstEmptyFieldIndex = userAnswer5.firstIndex(where: { $0.isEmpty }) else {
+                        return
+                    }
+                    
+                    if key != "Enter" {
+                        userAnswer5[firstEmptyFieldIndex] = key
+                    }
+                }
+            }
+            
+        })
     }
 }
 
