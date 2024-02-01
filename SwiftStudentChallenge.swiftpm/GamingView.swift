@@ -34,14 +34,6 @@ struct GamingView: View {
             Squares(userAnswers: $userAnswer5, wordCount: 7)
             
         }//: VSTACK
-        //        .onAppear {
-        //            userAnswer = Array(repeating: "", count: 6)
-        //            userAnswer1 = Array(repeating: "", count: 3)
-        //            userAnswer2 = Array(repeating: "", count: 2)
-        //            userAnswer3 = Array(repeating: "", count: 6)
-        //            userAnswer4 = Array(repeating: "", count: 4)
-        //            userAnswer5 = Array(repeating: "", count: 7)
-        //        }
         
         KeyboardView(onKeyPress: { key in
             
@@ -119,9 +111,7 @@ struct GamingView: View {
                     }
                     if key != "Enter" {
                         userAnswer2[firstEmptyFieldIndex] = key
-                    }
-                    
-                    //                    userAnswer2[firstEmptyFieldIndex] = key
+                    }                    
                 }
             }
             
