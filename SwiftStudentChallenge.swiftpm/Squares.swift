@@ -14,13 +14,16 @@ struct Squares: View {
     var body: some View {
         HStack {
             ForEach(0..<wordCount, id: \.self) { index in
-                TextField("", text: $userAnswers[index])
-                    .multilineTextAlignment(.center)
-                    .frame(width: 50, height: 50)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.red, lineWidth: 1)
-                    )
+                if index < userAnswers.count {
+                        TextField("", text: $userAnswers[index])
+                            .multilineTextAlignment(.center)
+                            .frame(width: 50, height: 50)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.red, lineWidth: 1)
+                            )
+                    } else {
+                    }
             }
         }
         .onAppear {
