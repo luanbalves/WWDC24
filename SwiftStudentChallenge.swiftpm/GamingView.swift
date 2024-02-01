@@ -45,27 +45,27 @@ struct GamingView: View {
         
         KeyboardView(onKeyPress: { key in
             
-            if key == "Enter" && userAnswer[5] != "" && enterPressed == false {
+            if key == "Enter" && userAnswer.last != "" && enterPressed == false {
                 count = count + 1
                 enterPressed = true
             }
-            if key == "Enter" && userAnswer1[2] != "" && enterPressed1 == false {
+            if key == "Enter" && userAnswer1.last != "" && enterPressed1 == false {
                 count = count + 1
                 enterPressed1 = true
             }
-            if key == "Enter" && userAnswer2[1] != "" && enterPressed2 == false {
+            if key == "Enter" && userAnswer2.last != "" && enterPressed2 == false {
                 count = count + 1
                 enterPressed2 = true
             }
-            if key == "Enter" && userAnswer3[5] != "" && enterPressed3 == false {
+            if key == "Enter" && userAnswer3.last != "" && enterPressed3 == false {
                 count = count + 1
                 enterPressed3 = true
             }
-            if key == "Enter" && userAnswer4[3] != "" && enterPressed4 == false {
+            if key == "Enter" && userAnswer4.last != "" && enterPressed4 == false {
                 count = count + 1
                 enterPressed4 = true
             }
-            if key == "Enter" && userAnswer5[6] != "" && enterPressed5 == false {
+            if key == "Enter" && userAnswer5.last != "" && enterPressed5 == false {
                 count = count + 1
                 enterPressed5 = true
             }
