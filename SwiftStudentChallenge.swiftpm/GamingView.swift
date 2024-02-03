@@ -23,6 +23,7 @@ struct GamingView: View {
     @State private var enterPressed3 = false
     @State private var enterPressed4 = false
     @State private var enterPressed5 = false
+    @StateObject var viewModel = GamingDataModel()
     
     var body: some View {
         VStack {
@@ -40,10 +41,16 @@ struct GamingView: View {
             if key == "Enter" && userAnswer.last != "" && enterPressed == false {
                 count = count + 1
                 enterPressed = true
+                if viewModel.areAllWordsCorrect(userAnswers: userAnswer) {
+                    print("Palavra correta")
+                }
             }
             if key == "Enter" && userAnswer1.last != "" && enterPressed1 == false {
                 count = count + 1
                 enterPressed1 = true
+                if viewModel.areAllWordsCorrect1(userAnswers: userAnswer1) {
+                    print("Palavra correta2")
+                }
             }
             if key == "Enter" && userAnswer2.last != "" && enterPressed2 == false {
                 count = count + 1
