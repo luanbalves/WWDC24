@@ -27,14 +27,14 @@ struct GamingView: View {
     
     var body: some View {
         VStack {
-            Squares(userAnswers: $userAnswer, wordCount: 6)
-            Squares(userAnswers: $userAnswer1, wordCount: 3)
-            Squares(userAnswers: $userAnswer2, wordCount: 2)
-            Squares(userAnswers: $userAnswer3, wordCount: 6)
-            Squares(userAnswers: $userAnswer4, wordCount: 4)
-            Squares(userAnswers: $userAnswer5, wordCount: 7)
-            
-        }//: VSTACK
+            Squares(userAnswers: $userAnswer, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord)
+            Squares(userAnswers: $userAnswer1, wordCount: 3, isLetterCorrect: viewModel.isLetterCorrectForWord1)
+            Squares(userAnswers: $userAnswer2, wordCount: 2, isLetterCorrect: viewModel.isLetterCorrectForWord2)
+            Squares(userAnswers: $userAnswer3, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord3)
+            Squares(userAnswers: $userAnswer4, wordCount: 4, isLetterCorrect: viewModel.isLetterCorrectForWord4)
+            Squares(userAnswers: $userAnswer5, wordCount: 7, isLetterCorrect: viewModel.isLetterCorrectForWord5)
+        }
+//: VSTACK
         
         KeyboardView(onKeyPress: { key in
             

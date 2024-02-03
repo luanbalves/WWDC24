@@ -16,7 +16,7 @@ class GamingDataModel: ObservableObject {
     let word5 = "COMPLEX"
     
     //MARK: - LETTERS CORRECT
-    func isLetterCorrect(userLetter: Character, atIndex index: Int) -> Bool {
+    func isLetterCorrect(userLetter: Character, atIndex index: Int, word: String) -> Bool {
         guard index < word.count else {
             return false
         }
@@ -27,6 +27,27 @@ class GamingDataModel: ObservableObject {
         return userLetter.lowercased() == correctLetter.lowercased()
     }
 
+    func isLetterCorrectForWord(userLetter: Character, atIndex index: Int) -> Bool {
+        return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word)
+    }
+    
+    func isLetterCorrectForWord1(userLetter: Character, atIndex index: Int) -> Bool {
+        return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word1)
+    }
+
+    func isLetterCorrectForWord2(userLetter: Character, atIndex index: Int) -> Bool {
+        return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word2)
+    }
+    func isLetterCorrectForWord3(userLetter: Character, atIndex index: Int) -> Bool {
+        return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word3)
+    }
+
+    func isLetterCorrectForWord4(userLetter: Character, atIndex index: Int) -> Bool {
+        return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word4)
+    }
+    func isLetterCorrectForWord5(userLetter: Character, atIndex index: Int) -> Bool {
+        return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word5)
+    }
 
     //MARK: - CORRECT WORDS
     func areAllWordsCorrect(userAnswers: [String]) -> Bool {
