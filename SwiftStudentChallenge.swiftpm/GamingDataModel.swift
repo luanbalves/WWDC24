@@ -15,18 +15,20 @@ class GamingDataModel: ObservableObject {
     let word4 = "THAN"
     let word5 = "COMPLEX"
     
-    func isLetterCorrect(letterIndex: Int, userAnswer: String) -> Bool {
-        guard letterIndex < word.count else {
+    //MARK: - LETTERS CORRECT
+    func isLetterCorrect(userLetter: Character, atIndex index: Int) -> Bool {
+        guard index < word.count else {
             return false
         }
 
         let correctWord = word.lowercased()
+        let correctLetter = correctWord[correctWord.index(correctWord.startIndex, offsetBy: index)]
 
-        let userLetter = String(userAnswer[userAnswer.index(userAnswer.startIndex, offsetBy: word.count)])
-
-        return userLetter.lowercased() == String(correctWord[correctWord.index(correctWord.startIndex, offsetBy: letterIndex)])
+        return userLetter.lowercased() == correctLetter.lowercased()
     }
-    
+
+
+    //MARK: - CORRECT WORDS
     func areAllWordsCorrect(userAnswers: [String]) -> Bool {
         guard userAnswers.count == word.count else {
             return false
