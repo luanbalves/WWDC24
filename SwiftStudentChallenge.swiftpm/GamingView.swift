@@ -26,6 +26,7 @@ struct GamingView: View {
     @StateObject var viewModel = GamingDataModel()
     
     var body: some View {
+        //MARK: - MAIN GAME VIEW.
         VStack {
             Squares(userAnswers: $userAnswer, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord)
             Squares(userAnswers: $userAnswer1, wordCount: 3, isLetterCorrect: viewModel.isLetterCorrectForWord1)
@@ -33,9 +34,9 @@ struct GamingView: View {
             Squares(userAnswers: $userAnswer3, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord3)
             Squares(userAnswers: $userAnswer4, wordCount: 4, isLetterCorrect: viewModel.isLetterCorrectForWord4)
             Squares(userAnswers: $userAnswer5, wordCount: 7, isLetterCorrect: viewModel.isLetterCorrectForWord5)
-        }
-//: VSTACK
+        }//: VSTACK
         
+        //MARK: - KEYBOARD VIEW AND FUNCTIONS.
         KeyboardView(onKeyPress: { key in
             
             if key == "Enter" && userAnswer.last != "" && enterPressed == false {
@@ -176,7 +177,7 @@ struct GamingView: View {
                 }
             }
             
-        })
+        }) //: KEYBOARD
     }
 }
 
