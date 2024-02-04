@@ -14,8 +14,12 @@ class GamingDataModel: ObservableObject {
     let word3 = "HARDER"
     let word4 = "THAN"
     let word5 = "COMPLEX"
-    @Published var buttonPressed = false
+    
+    @Published var currentWordIndex = 0
 
+    @Published var words: [String] = []
+    @Published var buttonPressed = false
+    @Published var showTextField = false
     //MARK: - LETTERS CORRECT
     func isLetterCorrect(userLetter: Character, atIndex index: Int, word: String) -> Bool {
         guard index < word.count else {
@@ -66,20 +70,23 @@ class GamingDataModel: ObservableObject {
 
         return userAnswers.elementsEqual(word1.map { $0.uppercased() })
     }
+    
+    //MARK: - TIMER TO SHOW THE WORDS WHEN START
+    func startTimer() {
+        words = [word, word1, word2, word3, word4, word5]
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            if self.currentWordIndex < self.words.count - 1 {
+                self.currentWordIndex += 1
+            } else {
+                timer.invalidate()
+                self.showTextField = true
+            }
+        }
+    }
 }
 
 
 
-//    private func startTimer() {
-//        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-//            if self.currentWordIndex < self.words.count - 1 {
-//                self.currentWordIndex += 1
-//            } else {
-//                timer.invalidate()
-//                self.showTextField = true
-//            }
-//        }
-//    }
-//
+
 
 
