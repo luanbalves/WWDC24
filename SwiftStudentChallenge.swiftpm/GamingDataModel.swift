@@ -14,7 +14,8 @@ class GamingDataModel: ObservableObject {
     let word3 = "HARDER"
     let word4 = "THAN"
     let word5 = "COMPLEX"
-    
+    @Published var buttonPressed = false
+
     //MARK: - LETTERS CORRECT
     func isLetterCorrect(userLetter: Character, atIndex index: Int, word: String) -> Bool {
         guard index < word.count else {

@@ -28,12 +28,12 @@ struct GamingView: View {
     var body: some View {
         //MARK: - MAIN GAME VIEW.
         VStack {
-            Squares(userAnswers: $userAnswer, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord)
-            Squares(userAnswers: $userAnswer1, wordCount: 3, isLetterCorrect: viewModel.isLetterCorrectForWord1)
-            Squares(userAnswers: $userAnswer2, wordCount: 2, isLetterCorrect: viewModel.isLetterCorrectForWord2)
-            Squares(userAnswers: $userAnswer3, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord3)
-            Squares(userAnswers: $userAnswer4, wordCount: 4, isLetterCorrect: viewModel.isLetterCorrectForWord4)
-            Squares(userAnswers: $userAnswer5, wordCount: 7, isLetterCorrect: viewModel.isLetterCorrectForWord5)
+            Squares(userAnswers: $userAnswer, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
+            Squares(userAnswers: $userAnswer1, wordCount: 3, isLetterCorrect: viewModel.isLetterCorrectForWord1, buttonPressed: viewModel.buttonPressed)
+            Squares(userAnswers: $userAnswer2, wordCount: 2, isLetterCorrect: viewModel.isLetterCorrectForWord2, buttonPressed: viewModel.buttonPressed)
+            Squares(userAnswers: $userAnswer3, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord3, buttonPressed: viewModel.buttonPressed)
+            Squares(userAnswers: $userAnswer4, wordCount: 4, isLetterCorrect: viewModel.isLetterCorrectForWord4, buttonPressed: viewModel.buttonPressed)
+            Squares(userAnswers: $userAnswer5, wordCount: 7, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
         }//: VSTACK
         
         //MARK: - KEYBOARD VIEW AND FUNCTIONS.
@@ -68,6 +68,7 @@ struct GamingView: View {
             if key == "Enter" && userAnswer5.last != "" && enterPressed5 == false {
                 count = count + 1
                 enterPressed5 = true
+                viewModel.buttonPressed.toggle() 
             }
             
             if count == 0 {
