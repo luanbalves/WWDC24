@@ -81,23 +81,5 @@ class GamingDataModel: ObservableObject {
 //        }
 //    }
 //
-//    private func areAnswersCorrect() -> Bool {
-//        for wordIndex in 0..<words.count {
-//            let startIndex = wordIndex * numberOfColumns.max()!
-//            let endIndex = startIndex + numberOfColumns[wordIndex]
-//            let userAnswerForWord = userAnswers[startIndex..<endIndex].joined().lowercased()
-//            let correctAnswerForWord = words[wordIndex].lowercased()
-//
-//            if userAnswerForWord != correctAnswerForWord {
-//                return false
-//            }
-//        }
-//
-//        return true
-//    }
-//
-//    private func checkAnswer() {
-//        let isCorrect = areAnswersCorrect()
-//        feedbackMessage = isCorrect ? "Correto!" : "Errado!"
-//    }
+
 
