@@ -38,7 +38,8 @@ struct GamingView: View {
         
         //MARK: - KEYBOARD VIEW AND FUNCTIONS.
         KeyboardView(onKeyPress: { key in
-            
+            //MARK: - THE NEXT WORD(LINE) LOGIC
+            // if the user press enter, and the word is filled with a word, then go to next line, the enterpressed is just to not have a loop
             if key == "Enter" && userAnswer.last != "" && enterPressed == false {
                 count = count + 1
                 enterPressed = true
@@ -68,23 +69,24 @@ struct GamingView: View {
             if key == "Enter" && userAnswer5.last != "" && enterPressed5 == false {
                 count = count + 1
                 enterPressed5 = true
-                viewModel.buttonPressed.toggle() 
+                viewModel.buttonPressed.toggle() // Change the color line of the square
             }
             
+            //MARK: - Fill the text fields and delete logic.
             if count == 0 {
                 if key == "Delete" {
                     guard let lastNonEmptyFieldIndex = userAnswer.lastIndex(where: { !$0.isEmpty }) else {
                         return
                     }
                     
-                    userAnswer[lastNonEmptyFieldIndex] = ""
+                    userAnswer[lastNonEmptyFieldIndex] = "" // delete the word in the last field
                 } else {
                     guard let firstEmptyFieldIndex = userAnswer.firstIndex(where: { $0.isEmpty }) else {
                         return
                     }
                     
-                    if key != "Enter" {
-                        userAnswer[firstEmptyFieldIndex] = key
+                    if key != "Enter" { // Just to not put enter in the field
+                        userAnswer[firstEmptyFieldIndex] = key // put the word pressed in the field
                     }
                 }
             }
