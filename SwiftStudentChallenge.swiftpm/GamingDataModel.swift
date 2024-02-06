@@ -16,22 +16,26 @@ class GamingDataModel: ObservableObject {
     let word5 = "COMPLEX"
     
     @Published var currentWordIndex = 0
-
+    
     @Published var words: [String] = []
     @Published var buttonPressed = false
     @Published var showTextField = false
+    
+    @Published var timeRemaining = 65
+    @Published var timer: Timer?
+
     //MARK: - LETTERS CORRECT
     func isLetterCorrect(userLetter: Character, atIndex index: Int, word: String) -> Bool {
         guard index < word.count else {
             return false
         }
-
+        
         let correctWord = word.lowercased()
         let correctLetter = correctWord[correctWord.index(correctWord.startIndex, offsetBy: index)]
-
+        
         return userLetter.lowercased() == correctLetter.lowercased()
     }
-
+    
     func isLetterCorrectForWord(userLetter: Character, atIndex index: Int) -> Bool {
         return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word)
     }
@@ -39,27 +43,27 @@ class GamingDataModel: ObservableObject {
     func isLetterCorrectForWord1(userLetter: Character, atIndex index: Int) -> Bool {
         return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word1)
     }
-
+    
     func isLetterCorrectForWord2(userLetter: Character, atIndex index: Int) -> Bool {
         return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word2)
     }
     func isLetterCorrectForWord3(userLetter: Character, atIndex index: Int) -> Bool {
         return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word3)
     }
-
+    
     func isLetterCorrectForWord4(userLetter: Character, atIndex index: Int) -> Bool {
         return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word4)
     }
     func isLetterCorrectForWord5(userLetter: Character, atIndex index: Int) -> Bool {
         return isLetterCorrect(userLetter: userLetter, atIndex: index, word: word5)
     }
-
+    
     //MARK: - CORRECT WORDS
     func areAllWordsCorrect(userAnswers: [String]) -> Bool {
         guard userAnswers.count == word.count else {
             return false
         }
-
+        
         return userAnswers.elementsEqual(word.map { $0.uppercased() })
     }
     
@@ -67,7 +71,7 @@ class GamingDataModel: ObservableObject {
         guard userAnswers.count == word1.count else {
             return false
         }
-
+        
         return userAnswers.elementsEqual(word1.map { $0.uppercased() })
     }
     
@@ -80,6 +84,16 @@ class GamingDataModel: ObservableObject {
             } else {
                 timer.invalidate()
                 self.showTextField = true
+            }
+        }
+    }
+    
+    func startTimerView() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            if self.timeRemaining > 0 {
+                self.timeRemaining -= 1
+            } else {
+                timer.invalidate()
             }
         }
     }

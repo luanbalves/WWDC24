@@ -40,6 +40,12 @@ struct GamingView: View {
             }
 
             if viewModel.showTextField { // show textfield when finish showing the words
+                Text("Remaining time: \(viewModel.timeRemaining) seconds")
+                
+                if viewModel.timeRemaining == 0 {
+                    Text("PERDEU!")
+                }
+                
                 Squares(userAnswers: $userAnswer, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
                 Squares(userAnswers: $userAnswer1, wordCount: 3, isLetterCorrect: viewModel.isLetterCorrectForWord1, buttonPressed: viewModel.buttonPressed)
                 Squares(userAnswers: $userAnswer2, wordCount: 2, isLetterCorrect: viewModel.isLetterCorrectForWord2, buttonPressed: viewModel.buttonPressed)
@@ -81,6 +87,7 @@ struct GamingView: View {
                         count = count + 1
                         enterPressed5 = true
                         viewModel.buttonPressed.toggle() // Change the color line of the square
+                        viewModel.timer?.invalidate()
                     }
                     
                     //MARK: - Fill the text fields and delete logic.
@@ -192,11 +199,24 @@ struct GamingView: View {
                     }
                     
                 }) //: KEYBOARD
+                .disabled(disableKeyboard)
+                .opacity(disableKeyboard ? 0.5 : 1)
+
             }
         }//: VSTACK
         .onAppear {
             viewModel.startTimer() // calls functions to show the words
+            viewModel.startTimerView()
         }
+    }
+}
+
+extension GamingView {
+    var disableKeyboard: Bool {
+        if viewModel.timeRemaining == 0 || enterPressed5 {
+            return true
+        }
+        return false
     }
 }
 
