@@ -21,11 +21,13 @@ struct Squares: View {
                         let isCorrect = isLetterCorrect(userLetter, index)
 
                         TextField("", text: $userAnswers[index])
+                            .font(.system(size: 25))
+                            .fontWeight(.semibold)
                             .multilineTextAlignment(.center)
-                            .frame(width: 50, height: 50)
+                            .frame(width: 60, height: 60)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(!isCorrect ? (buttonPressed ? Color.red : Color.gray) : (buttonPressed ? Color.green : Color.gray), lineWidth: 2)
+                                    .stroke(!isCorrect ? (buttonPressed ? Color.red : Color.gray) : (buttonPressed ? Color.green : Color.gray), lineWidth: 3)
                             )
                             .disabled(true)
                     }

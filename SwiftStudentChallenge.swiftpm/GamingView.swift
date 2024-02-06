@@ -34,9 +34,10 @@ struct GamingView: View {
             
             if viewModel.currentWordIndex < viewModel.words.count { // Show the words then start
                 Text(viewModel.words[viewModel.currentWordIndex])
-                    .font(.title)
+                    .fontWeight(.bold)
                     .padding()
                     .opacity(viewModel.showTextField ? 0 : 1)
+                    .font(.system(size: 35))
             }
 
             if viewModel.showTextField { // show textfield when finish showing the words
