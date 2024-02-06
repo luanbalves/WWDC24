@@ -14,7 +14,14 @@ class GamingDataModel: ObservableObject {
     let word3 = "HARDER"
     let word4 = "THAN"
     let word5 = "COMPLEX"
-    
+    let translations: [String: String] = [
+        "SIMPLE" : "SIMPLES",
+        "CAN" : "PODE",
+        "BE" : "SER",
+        "HARDER" : "MAIS DIFÍCIL",
+        "THAN" : "DO QUE",
+        "COMPLEX" : "COMPLEXO"
+        ]
     @Published var currentWordIndex = 0
     
     @Published var words: [String] = []

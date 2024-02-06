@@ -26,6 +26,8 @@ struct GamingView: View {
     @State private var enterPressed4 = false
     @State private var enterPressed5 = false
     
+    @State private var isTipsPressed = false
+    
     @StateObject var viewModel = GamingDataModel()
     
     var body: some View {
@@ -42,9 +44,33 @@ struct GamingView: View {
 
             if viewModel.showTextField { // show textfield when finish showing the words
                 Text("Remaining time: \(viewModel.timeRemaining) seconds")
-                
+
                 if viewModel.timeRemaining == 0 {
                     Text("PERDEU!")
+                }
+                
+                Button {
+                    isTipsPressed = true
+                } label: {
+                    Text("Tips")
+                }
+                
+                if isTipsPressed {
+                    VStack {
+                        
+                        Button {
+                            isTipsPressed = false
+                        } label: {
+                            Image(systemName: "x.square")
+                        }
+                        
+                        Text("\(viewModel.translations[viewModel.word]!)")
+                        Text("\(viewModel.translations[viewModel.word1]!)")
+                        Text("\(viewModel.translations[viewModel.word2]!)")
+                        Text("\(viewModel.translations[viewModel.word3]!)")
+                        Text("\(viewModel.translations[viewModel.word4]!)")
+                        Text("\(viewModel.translations[viewModel.word5]!)")
+                    }//: VSTACK
                 }
                 
                 Squares(userAnswers: $userAnswer, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
