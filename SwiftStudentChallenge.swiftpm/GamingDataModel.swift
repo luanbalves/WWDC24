@@ -8,20 +8,133 @@
 import SwiftUI
 
 class GamingDataModel: ObservableObject {
-    let word = "SIMPLE"
-    let word1 = "CAN"
-    let word2 = "BE"
-    let word3 = "HARDER"
-    let word4 = "THAN"
-    let word5 = "COMPLEX"
+    
+    var word = "SIMPLE"
+    var word1 = "CAN"
+    var word2 = "BE"
+    var word3 = "HARDER"
+    var word4 = "THAN"
+    var word5 = "COMPLEX"
+    
     let translations: [String: String] = [
-        "SIMPLE" : "SIMPLES",
-        "CAN" : "PODE",
-        "BE" : "SER",
-        "HARDER" : "MAIS DIFÍCIL",
-        "THAN" : "DO QUE",
-        "COMPLEX" : "COMPLEXO"
-        ]
+        "simple" : "SIMPLES",
+        "harder" : "MAIS DIFÍCIL",
+        "complex" : "COMPLEXO",
+        "the": "o/a(s)/as",
+        "be": "ser/estar",
+        "to": "para/a",
+        "of": "de",
+        "and": "e",
+        "a": "um/uma",
+        "in": "em",
+        "that": "esse(a)/aquele(a)",
+        "have": "ter",
+        "i": "eu",
+        "it": "isso/ele(a)",
+        "for": "para/por",
+        "not": "não",
+        "on": "sobre/em",
+        "with": "com",
+        "he": "ele",
+        "as": "como",
+        "you": "você",
+        "do": "fazer",
+        "at": "em/a",
+        "this": "este(a)",
+        "but": "mas",
+        "his": "dele",
+        "by": "por",
+        "from": "de",
+        "they": "eles(as)",
+        "we": "nós",
+        "say": "dizer",
+        "her": "ela",
+        "she": "ela",
+        "or": "ou",
+        "an": "um/uma",
+        "will": "vai",
+        "my": "meu/minha",
+        "one": "um/uma",
+        "all": "todo/toda",
+        "would": "iria",
+        "there": "lá",
+        "their": "deles(as)",
+        "what": "o que",
+        "so": "então",
+        "up": "acima",
+        "out": "fora",
+        "if": "se",
+        "about": "sobre",
+        "who": "quem",
+        "get": "obter",
+        "which": "qual",
+        "go": "ir",
+        "me": "me",
+        "when": "quando",
+        "make": "fazer",
+        "can": "poder",
+        "like": "gostar",
+        "time": "tempo",
+        "no": "não",
+        "just": "apenas",
+        "him": "ele",
+        "know": "saber/conhecer",
+        "take": "levar/pegar",
+        "people": "pessoas",
+        "into": "dentro",
+        "year": "ano",
+        "your": "seu/sua",
+        "good": "bom/bem",
+        "some": "algum(s)/alguma(s)",
+        "could": "poderia",
+        "them": "eles(as)",
+        "see": "ver",
+        "other": "outro(s)/outra(s)",
+        "than": "do que",
+        "then": "então",
+        "now": "agora",
+        "look": "olhar",
+        "only": "apenas/só",
+        "come": "vir/venir",
+        "its": "seu/sua (referindo-se a objeto/animal)",
+        "over": "sobre",
+        "think": "pensar",
+        "also": "também",
+        "back": "de volta",
+        "after": "depois/depois de",
+        "use": "usar",
+        "two": "dois/duas",
+        "how": "como",
+        "our": "nosso/nossa",
+        "work": "trabalho",
+        "first": "primeiro(a)",
+        "well": "bem",
+        "way": "caminho/forma",
+        "even": "mesmo/até",
+        "new": "novo(s)/nova(s)",
+        "want": "querer",
+        "because": "porque",
+        "any": "qualquer",
+        "these": "estes(as)/essas(es)",
+        "give": "dar",
+        "day": "dia",
+        "most": "mais",
+        "us": "nós",
+    ]
+    
+    let mostUsedWords = [
+        "the", "be", "to", "of", "and", "a", "in", "that", "have", "I",
+        "it", "for", "not", "on", "with", "he", "as", "you", "do", "at",
+        "this", "but", "his", "by", "from", "they", "we", "say", "her", "she",
+        "or", "an", "will", "my", "one", "all", "would", "there", "their", "what",
+        "so", "up", "out", "if", "about", "who", "get", "which", "go", "me",
+        "when", "make", "can", "like", "time", "no", "just", "him", "know", "take",
+        "people", "into", "year", "your", "good", "some", "could", "them", "see", "other",
+        "than", "then", "now", "look", "only", "come", "its", "over", "think", "also",
+        "back", "after", "use", "two", "how", "our", "work", "first", "well", "way",
+        "even", "new", "want", "because", "any", "these", "give", "day", "most", "us"
+    ]
+    
     @Published var currentWordIndex = 0
     
     @Published var words: [String] = []
@@ -30,7 +143,30 @@ class GamingDataModel: ObservableObject {
     
     @Published var timeRemaining = 65
     @Published var timer: Timer?
-
+    @AppStorage("selectedGameOption") var selectedGameOption = 0
+    
+    init () {
+        updateWords()
+    }
+    
+    func updateWords() { // Update words case 100 most used words
+        let randomWord = mostUsedWords.randomElement() ?? ""
+        let randomWord1 = mostUsedWords.randomElement() ?? ""
+        let randomWord2 = mostUsedWords.randomElement() ?? ""
+        let randomWord3 = mostUsedWords.randomElement() ?? ""
+        let randomWord4 = mostUsedWords.randomElement() ?? ""
+        let randomWord5 = mostUsedWords.randomElement() ?? ""
+        
+        if selectedGameOption == 1 {
+            word = randomWord.uppercased()
+            word1 = randomWord1.uppercased()
+            word2 = randomWord2.uppercased()
+            word3 = randomWord3.uppercased()
+            word4 = randomWord4.uppercased()
+            word5 = randomWord5.uppercased()
+        }
+    }
+    
     //MARK: - LETTERS CORRECT
     func isLetterCorrect(userLetter: Character, atIndex index: Int, word: String) -> Bool {
         guard index < word.count else {

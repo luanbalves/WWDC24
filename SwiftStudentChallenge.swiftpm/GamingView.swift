@@ -27,7 +27,7 @@ struct GamingView: View {
     @State private var enterPressed5 = false
     
     @State private var isTipsPressed = false
-    
+        
     @StateObject var viewModel = GamingDataModel()
     
     var body: some View {
@@ -64,21 +64,21 @@ struct GamingView: View {
                             Image(systemName: "x.square")
                         }
                         
-                        Text("\(viewModel.translations[viewModel.word]!)")
-                        Text("\(viewModel.translations[viewModel.word1]!)")
-                        Text("\(viewModel.translations[viewModel.word2]!)")
-                        Text("\(viewModel.translations[viewModel.word3]!)")
-                        Text("\(viewModel.translations[viewModel.word4]!)")
-                        Text("\(viewModel.translations[viewModel.word5]!)")
+                        Text("\(viewModel.translations[viewModel.word.lowercased()]?.uppercased() ?? "No translatation")")
+                        Text("\(viewModel.translations[viewModel.word1.lowercased()]?.uppercased() ?? "No translatation")")
+                        Text("\(viewModel.translations[viewModel.word2.lowercased()]?.uppercased() ?? "No translatation")")
+                        Text("\(viewModel.translations[viewModel.word3.lowercased()]?.uppercased() ?? "No translatation")")
+                        Text("\(viewModel.translations[viewModel.word4.lowercased()]?.uppercased() ?? "No translatation")")
+                        Text("\(viewModel.translations[viewModel.word5.lowercased()]?.uppercased() ?? "No translatation")")
                     }//: VSTACK
                 }
                 
-                Squares(userAnswers: $userAnswer, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
-                Squares(userAnswers: $userAnswer1, wordCount: 3, isLetterCorrect: viewModel.isLetterCorrectForWord1, buttonPressed: viewModel.buttonPressed)
-                Squares(userAnswers: $userAnswer2, wordCount: 2, isLetterCorrect: viewModel.isLetterCorrectForWord2, buttonPressed: viewModel.buttonPressed)
-                Squares(userAnswers: $userAnswer3, wordCount: 6, isLetterCorrect: viewModel.isLetterCorrectForWord3, buttonPressed: viewModel.buttonPressed)
-                Squares(userAnswers: $userAnswer4, wordCount: 4, isLetterCorrect: viewModel.isLetterCorrectForWord4, buttonPressed: viewModel.buttonPressed)
-                Squares(userAnswers: $userAnswer5, wordCount: 7, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
+                Squares(userAnswers: $userAnswer, wordCount: viewModel.word.count, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
+                Squares(userAnswers: $userAnswer1, wordCount: viewModel.word1.count, isLetterCorrect: viewModel.isLetterCorrectForWord1, buttonPressed: viewModel.buttonPressed)
+                Squares(userAnswers: $userAnswer2, wordCount: viewModel.word2.count, isLetterCorrect: viewModel.isLetterCorrectForWord2, buttonPressed: viewModel.buttonPressed)
+                Squares(userAnswers: $userAnswer3, wordCount: viewModel.word3.count, isLetterCorrect: viewModel.isLetterCorrectForWord3, buttonPressed: viewModel.buttonPressed)
+                Squares(userAnswers: $userAnswer4, wordCount: viewModel.word4.count, isLetterCorrect: viewModel.isLetterCorrectForWord4, buttonPressed: viewModel.buttonPressed)
+                Squares(userAnswers: $userAnswer5, wordCount: viewModel.word5.count, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
                 
                 //MARK: - KEYBOARD VIEW AND FUNCTIONS.
                 KeyboardView(onKeyPress: { key in
