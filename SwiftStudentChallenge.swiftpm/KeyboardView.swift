@@ -30,8 +30,9 @@ struct KeyboardView: View {
                                 Text(key)
                                     .font(.title)
                                     .frame(width: key == "Enter" || key == "Delete" ? 120 : 60, height: 60)
-                                    .background(Color.gray)
-                                    .foregroundColor(.white)
+                                    .background(Colors.KeyboardColors.mainColor)
+                                    .foregroundColor(.black)
+                                    .fontWeight(.semibold)
                                     .cornerRadius(8)
                             }
                     }

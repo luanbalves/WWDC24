@@ -25,9 +25,11 @@ struct Squares: View {
                             .fontWeight(.semibold)
                             .multilineTextAlignment(.center)
                             .frame(width: 60, height: 60)
+                            .background(Colors.SquaresColors.mainColor)
+                            .cornerRadius(10)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
-                                    .stroke(!isCorrect ? (buttonPressed ? Color.red : Color.gray) : (buttonPressed ? Color.green : Color.gray), lineWidth: 3)
+                                    .stroke(!isCorrect ? (buttonPressed ? Color.red : Colors.SquaresColors.stroke) : (buttonPressed ? Color.green : Colors.SquaresColors.stroke), lineWidth: 3)
                             )
                             .disabled(true)
                     }
