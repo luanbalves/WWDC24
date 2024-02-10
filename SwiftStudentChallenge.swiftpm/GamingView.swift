@@ -242,7 +242,7 @@ struct GamingView: View {
                         
                         if disableKeyboard {
                             ChatView()
-                                .offset(x: 53, y: 45)
+                                .offset(x: 50.27, y: 45)
                         }
                     }//: ZSTACK
                 }
