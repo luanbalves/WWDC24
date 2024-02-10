@@ -80,13 +80,15 @@ struct GamingView: View {
                         }//: VSTACK
                     }
                     
-                    Squares(userAnswers: $userAnswer, wordCount: viewModel.word.count, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
-                    Squares(userAnswers: $userAnswer1, wordCount: viewModel.word1.count, isLetterCorrect: viewModel.isLetterCorrectForWord1, buttonPressed: viewModel.buttonPressed)
-                    Squares(userAnswers: $userAnswer2, wordCount: viewModel.word2.count, isLetterCorrect: viewModel.isLetterCorrectForWord2, buttonPressed: viewModel.buttonPressed)
-                    Squares(userAnswers: $userAnswer3, wordCount: viewModel.word3.count, isLetterCorrect: viewModel.isLetterCorrectForWord3, buttonPressed: viewModel.buttonPressed)
-                    Squares(userAnswers: $userAnswer4, wordCount: viewModel.word4.count, isLetterCorrect: viewModel.isLetterCorrectForWord4, buttonPressed: viewModel.buttonPressed)
-                    Squares(userAnswers: $userAnswer5, wordCount: viewModel.word5.count, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
-                    
+                    Group {
+                        Squares(userAnswers: $userAnswer, wordCount: viewModel.word.count, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer1, wordCount: viewModel.word1.count, isLetterCorrect: viewModel.isLetterCorrectForWord1, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer2, wordCount: viewModel.word2.count, isLetterCorrect: viewModel.isLetterCorrectForWord2, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer3, wordCount: viewModel.word3.count, isLetterCorrect: viewModel.isLetterCorrectForWord3, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer4, wordCount: viewModel.word4.count, isLetterCorrect: viewModel.isLetterCorrectForWord4, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer5, wordCount: viewModel.word5.count, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
+                    }
+                    .offset(y: -100)
                     //MARK: - KEYBOARD VIEW AND FUNCTIONS.
                     KeyboardView(onKeyPress: { key in
                         //MARK: - THE NEXT WORD(LINE) LOGIC
@@ -235,7 +237,7 @@ struct GamingView: View {
                     }) //: KEYBOARD
                     .disabled(disableKeyboard)
                     .opacity(disableKeyboard ? 0.5 : 1)
-                    
+                    .offset(y: 45)
                 }
             }//: VSTACK
         }//: ZSTACK
@@ -255,6 +257,6 @@ extension GamingView {
     }
 }
 
-//#Preview {
-//    GamingView(userAnswer: "...", userAnswer1: "...", userAnswer2: "...", userAnswer3: "...", userAnswer4: "...", userAnswer5: "...")
-//}
+#Preview {
+    GamingView(userAnswer: ["..."], userAnswer1: ["..."], userAnswer2: ["..."], userAnswer3: ["..."], userAnswer4: ["..."], userAnswer5: ["..."])
+}
