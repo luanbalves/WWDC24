@@ -27,6 +27,7 @@ struct ChatView: View {
                     ZStack {
                         Rectangle()
                             .frame(width: 112, height: 32)
+                            .foregroundStyle(.white)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 17)
                                     .stroke(.black, lineWidth: 1)
