@@ -43,42 +43,14 @@ struct GamingView: View {
                 
                 if viewModel.currentWordIndex < viewModel.words.count { // Show the words then start
                     Text(viewModel.words[viewModel.currentWordIndex])
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                         .padding()
                         .opacity(viewModel.showTextField ? 0 : 1)
-                        .font(.system(size: 35))
+                        .font(.system(size: 47))
+                        .foregroundStyle(.white)
                 }
                 
                 if viewModel.showTextField { // show textfield when finish showing the words
-                    Text("Remaining time: \(viewModel.timeRemaining) seconds")
-                    
-                    if viewModel.timeRemaining == 0 {
-                        Text("PERDEU!")
-                    }
-                    
-                    Button {
-                        isTipsPressed = true
-                    } label: {
-                        Text("Tips")
-                    }
-                    
-                    if isTipsPressed {
-                        VStack {
-                            
-                            Button {
-                                isTipsPressed = false
-                            } label: {
-                                Image(systemName: "x.square")
-                            }
-                            
-                            Text("\(viewModel.translations[viewModel.word.lowercased()]?.uppercased() ?? "No translatation")")
-                            Text("\(viewModel.translations[viewModel.word1.lowercased()]?.uppercased() ?? "No translatation")")
-                            Text("\(viewModel.translations[viewModel.word2.lowercased()]?.uppercased() ?? "No translatation")")
-                            Text("\(viewModel.translations[viewModel.word3.lowercased()]?.uppercased() ?? "No translatation")")
-                            Text("\(viewModel.translations[viewModel.word4.lowercased()]?.uppercased() ?? "No translatation")")
-                            Text("\(viewModel.translations[viewModel.word5.lowercased()]?.uppercased() ?? "No translatation")")
-                        }//: VSTACK
-                    }
                     
                     Group {
                         Squares(userAnswers: $userAnswer, wordCount: viewModel.word.count, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
@@ -89,6 +61,73 @@ struct GamingView: View {
                         Squares(userAnswers: $userAnswer5, wordCount: viewModel.word5.count, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
                     }
                     .offset(y: -100)
+                    
+                    HStack {
+                        
+                        Button {
+                            isTipsPressed = true
+                        } label: {
+                            ZStack{
+                                Rectangle()
+                                    .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
+                                    .frame(width: 107, height: 50)
+                                    .cornerRadius(13)
+                                    .shadow(color: Color.black, radius: 0, x: 0, y: 12)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 13)
+                                            .stroke(.black, lineWidth: 3)
+                                    )
+                                
+                                Text("Tips")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 27))
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        
+                        if isTipsPressed {
+                            VStack {
+                                
+                                Button {
+                                    isTipsPressed = false
+                                } label: {
+                                    Image(systemName: "x.square")
+                                        .foregroundStyle(.white)
+                                }
+                                
+                                Text("\(viewModel.translations[viewModel.word.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
+                                Text("\(viewModel.translations[viewModel.word1.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
+                                Text("\(viewModel.translations[viewModel.word2.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
+                                Text("\(viewModel.translations[viewModel.word3.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
+                                Text("\(viewModel.translations[viewModel.word4.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
+                                Text("\(viewModel.translations[viewModel.word5.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
+                            }//: VSTACK
+                        }
+                        
+                        Spacer().frame(width: 450)
+                        
+                        ZStack {
+                            Rectangle()
+                                .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
+                                .frame(width: 107, height: 50)
+                                .cornerRadius(13)
+                                .shadow(color: Color.black, radius: 0, x: 0, y: 12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 13)
+                                        .stroke(.black, lineWidth: 3)
+                                )
+                            HStack(spacing: 3) {
+                                Image(systemName: "timer")
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.white)
+                                    .font(.title2)
+                                Text("\(viewModel.timeRemaining)")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 27))
+                                    .fontWeight(.semibold)
+                            }
+                        }//: ZSTACK
+                    }//: HSTACK
                     ZStack {
                         //MARK: - KEYBOARD VIEW AND FUNCTIONS.
                         KeyboardView(onKeyPress: { key in

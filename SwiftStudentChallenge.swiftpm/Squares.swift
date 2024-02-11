@@ -27,13 +27,13 @@ struct Squares: View {
                             .frame(width: 60, height: 60)
                             .background(Colors.SquaresColors.mainColor)
                             .cornerRadius(10)
-                            .shadow(color: Color.black.opacity(0.25), radius: 0, x: 0, y: 8)
+//                            .shadow(color: Color.black.opacity(0.25), radius: 0, x: 0, y: 8)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(!isCorrect ? (buttonPressed ? Color.red : Colors.SquaresColors.stroke) : (buttonPressed ? Color.green : Colors.SquaresColors.stroke), lineWidth: 3)
                             )
                             .disabled(true)
-//                            .shadow(color: Color.black.opacity(0.25), radius: 3, x: 0, y: 8)
+                            .shadow(color: Color.black.opacity(0.25), radius: 4, x: 0, y: 8)
                     }
                 }
             }
