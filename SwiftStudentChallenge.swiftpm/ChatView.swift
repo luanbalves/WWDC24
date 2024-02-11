@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ChatView: View {
+    let phrase: String
+
     var body: some View {
         ZStack {
             Rectangle()
@@ -16,9 +18,11 @@ struct ChatView: View {
                 .foregroundStyle(.white)
             
             HStack {
-                Text("Bla bla bla bla bla bla bla bla bla bla")
+                Text(phrase)
                     .foregroundStyle(.black)
                     .offset(y: -40)
+                    .multilineTextAlignment(.center)
+                    .frame(width: 269)
                 VStack(spacing: 0) {
                     Circle()
                         .foregroundStyle(.black).opacity(0.6)
@@ -61,6 +65,6 @@ extension ChatView {
 }
 
 #Preview {
-    ChatView()
+    ChatView(phrase: "....")
         .preferredColorScheme(.dark)
 }

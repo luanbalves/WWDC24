@@ -29,7 +29,7 @@ struct GamingView: View {
     @State private var isTipsPressed = false
         
     @StateObject var viewModel = GamingDataModel()
-    
+
     var body: some View {
         //MARK: - MAIN GAME VIEW.
         ZStack {
@@ -241,7 +241,7 @@ struct GamingView: View {
                         .offset(y: 45)
                         
                         if disableKeyboard {
-                            ChatView()
+                            ChatView(phrase: phrase)
                                 .offset(x: 50.27, y: 45)
                         }
                     }//: ZSTACK
@@ -261,6 +261,16 @@ extension GamingView {
             return true
         }
         return false
+    }
+    
+    var phrase: String {
+        if viewModel.timeRemaining == 0 {
+            return Phrases.timesUP.randomElement() ?? "Time is up"
+        } else if viewModel.areAllWordsCorrectAll(userAnswers: userAnswer, userAnswers1: userAnswer1, userAnswers2: userAnswer2, userAnswers3: userAnswer3, userAnswers4: userAnswer4, userAnswers5: userAnswer5) {
+            return Phrases.correctPhrases.randomElement() ?? "All correct"
+        } else {
+            return Phrases.someMistakes.randomElement() ?? "Some mistakes"
+        }
     }
 }
 

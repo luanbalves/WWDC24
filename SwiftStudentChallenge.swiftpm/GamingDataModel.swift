@@ -218,6 +218,39 @@ class GamingDataModel: ObservableObject {
         return userAnswers.elementsEqual(word1.map { $0.uppercased() })
     }
     
+    func areAllWordsCorrectAll(userAnswers: [String], userAnswers1: [String], userAnswers2: [String], userAnswers3: [String], userAnswers4: [String], userAnswers5: [String]) -> Bool {
+        guard userAnswers.count == word.count else {
+            return false
+        }
+        
+        guard userAnswers1.count == word1.count else {
+            return false
+        }
+        
+        guard userAnswers2.count == word2.count else {
+            return false
+        }
+        
+        guard userAnswers3.count == word3.count else {
+            return false
+        }
+        
+        guard userAnswers4.count == word4.count else {
+            return false
+        }
+        
+        guard userAnswers5.count == word5.count else {
+            return false
+        }
+        
+        return userAnswers.elementsEqual(word.map { $0.uppercased() }) &&
+        userAnswers1.elementsEqual(word1.map { $0.uppercased() }) &&
+        userAnswers2.elementsEqual(word2.map { $0.uppercased() }) &&
+        userAnswers3.elementsEqual(word3.map { $0.uppercased() }) &&
+        userAnswers4.elementsEqual(word4.map { $0.uppercased() }) &&
+        userAnswers5.elementsEqual(word5.map { $0.uppercased() })
+    }
+    
     //MARK: - TIMER TO SHOW THE WORDS WHEN START
     func startTimer() {
         words = [word, word1, word2, word3, word4, word5]
@@ -231,6 +264,7 @@ class GamingDataModel: ObservableObject {
         }
     }
     
+    //MARK: - TIMER TO END THE GAME
     func startTimerView() {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
             if self.timeRemaining > 0 {
