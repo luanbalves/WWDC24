@@ -15,7 +15,7 @@ struct ChatView: View {
             Rectangle()
                 .frame(width: 667, height: 218)
                 .clipShape(RoundedCorner(radius: 100, corners: [.topLeft, .bottomLeft]))
-                .foregroundStyle(.white)
+                .foregroundStyle(Colors.Chat.mainColor)
             
             HStack {
                 Text(phrase)
@@ -32,6 +32,7 @@ struct ChatView: View {
                         Rectangle()
                             .frame(width: 112, height: 32)
                             .foregroundStyle(.white)
+                            .cornerRadius(17)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 17)
                                     .stroke(.black, lineWidth: 1)

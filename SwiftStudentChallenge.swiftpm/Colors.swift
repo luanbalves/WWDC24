@@ -25,4 +25,8 @@ struct Colors {
     enum KeyboardColors {
         static let mainColor = Color("KeyboardMainColor")
     }
+    
+    enum Chat {
+        static let mainColor = Color("ChatMainColor")
+    }
 }
