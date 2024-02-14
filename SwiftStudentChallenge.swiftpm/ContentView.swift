@@ -2,9 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var isShowingHelp = false
-    let gameOptions = ["SSC", "1000 MOST USED WORDS", "ALL"]
+    let gameOptions = ["SSC", "1000 MOST USED WORDS"]
     @State var selectedLanguageOption = 0
-    let languageOptions = ["English", "Portuguese", "Spanish"]
+    let languageOptions = ["English"] 
     @StateObject var viewModel = GamingDataModel()
 
     var body: some View {
@@ -15,8 +15,6 @@ struct ContentView: View {
                     .padding(.bottom, -10)
                 Picker("Options:", selection: $selectedLanguageOption) {
                     Text(languageOptions[0]).tag(0)
-                    Text(languageOptions[1]).tag(1)
-                    Text(languageOptions[2]).tag(2)
                 }
                 
                 Text("Select the game mode:")
@@ -24,7 +22,6 @@ struct ContentView: View {
                 Picker("Options:", selection: $viewModel.selectedGameOption) {
                     Text(gameOptions[0]).tag(0)
                     Text(gameOptions[1]).tag(1)
-                    Text(gameOptions[2]).tag(2)
                 }
                 
                 NavigationLink(destination: GamingView(userAnswer: [""], userAnswer1: [""], userAnswer2: [""], userAnswer3: [""], userAnswer4: [""], userAnswer5: [""])) {
