@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var isShowingHelp = false
-    let gameOptions = ["SSC", "100 MOST USED WORDS", "ALL"]
+    let gameOptions = ["SSC", "1000 MOST USED WORDS", "ALL"]
     @State var selectedLanguageOption = 0
     let languageOptions = ["English", "Portuguese", "Spanish"]
     @StateObject var viewModel = GamingDataModel()
