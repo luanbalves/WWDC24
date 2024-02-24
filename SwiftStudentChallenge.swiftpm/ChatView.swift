@@ -24,9 +24,13 @@ struct ChatView: View {
                     .multilineTextAlignment(.center)
                     .frame(width: 269)
                 VStack(spacing: 0) {
-                    Circle()
-                        .foregroundStyle(.black).opacity(0.6)
-                        .frame(width: 131, height: 156)
+//                    Circle()
+//                        .foregroundStyle(.black).opacity(0.6)
+//                        .frame(width: 131, height: 156)
+                    Image("Image")
+                        .resizable()
+                        .frame(width: 190, height: 149)
+                        .offset(x: -28)
                     
                     ZStack {
                         Rectangle()
@@ -43,7 +47,7 @@ struct ChatView: View {
                     }//: ZSTACK
                     .offset(y: -13)
                 }//: VSTACK
-                .offset(x: 127)
+                .offset(x: 120)
             }//: HSTACK
         }//: ZSTACK
     }

@@ -18,7 +18,9 @@ struct GamingView: View {
     @State var userAnswer5: [String]
     
     @State private var count = 0
-    
+    @State private var explanationCount = 0
+    @State private var isExplaining = true
+
     @State private var enterPressed = false
     @State private var enterPressed1 = false
     @State private var enterPressed2 = false
@@ -38,8 +40,41 @@ struct GamingView: View {
             Colors.BlackBoard.mainColor
                 .frame(width: 770, height: 1084)
                 .cornerRadius(45)
-                .offset(y: -53)
+                .offset(y: -23)
             VStack {
+                
+                if viewModel.selectedGameOption == 0 && isExplaining == true {
+                    VStack {
+                        ChatView(phrase: explanation)
+                        
+                        if explanationCount < 2 {
+                            Button(action: {
+                                explanationCount += 1
+                            }, label: {
+                                Text("Next")
+                            })
+                            .foregroundStyle(.white)
+                            .frame(width: 150, height: 40)
+                            .background(.black)
+                            .cornerRadius(12)
+                            .offset(x: 0, y: -57)
+                        } else {
+                            Button(action: {
+                                isExplaining = false
+                                viewModel.startTimer()
+                                viewModel.startTimerView()
+                            }, label: {
+                                Text("Start")
+                            })
+                            .foregroundStyle(.white)
+                            .frame(width: 150, height: 40)
+                            .background(.black)
+                            .cornerRadius(12)
+                            .offset(x: 0, y: -57)
+                        }
+                    }
+                    .offset(x: 50.27, y: 337)
+                }
                 
                 if viewModel.currentWordIndex < viewModel.words.count { // Show the words then start
                     Text(viewModel.words[viewModel.currentWordIndex])
@@ -288,8 +323,10 @@ struct GamingView: View {
             }//: VSTACK
         }//: ZSTACK
         .onAppear {
-            viewModel.startTimer() // calls functions to show the words
-            viewModel.startTimerView()
+            if viewModel.selectedGameOption == 1 {
+                viewModel.startTimer() // calls functions to show the words
+                viewModel.startTimerView()
+            }
         }
     }
 }
@@ -309,6 +346,16 @@ extension GamingView {
             return Phrases.correctPhrases.randomElement() ?? "All correct"
         } else {
             return Phrases.someMistakes.randomElement() ?? "Some mistakes"
+        }
+    }
+    
+    var explanation: String {
+        if explanationCount == 0 {
+            return "Aqui é o primeiro texto"
+        } else if explanationCount == 1{
+            return "Segunda frase"
+        } else {
+            return "Terceira frase"
         }
     }
 }
