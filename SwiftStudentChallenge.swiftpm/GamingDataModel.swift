@@ -156,6 +156,7 @@ class GamingDataModel: ObservableObject {
                 self.timeRemaining -= 1
             } else {
                 timer.invalidate()
+                NotificationCenter.default.post(name: Notification.Name("PlayMusicNotification"), object: nil)
             }
         }
     }

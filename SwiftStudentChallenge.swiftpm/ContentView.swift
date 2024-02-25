@@ -1,4 +1,5 @@
 import SwiftUI
+import AVFoundation
 
 struct ContentView: View {
     @State private var isShowingHelp = false
@@ -6,6 +7,7 @@ struct ContentView: View {
     @State var selectedLanguageOption = 0
     let languageOptions = ["ENGLISH"]
     @StateObject var viewModel = GamingDataModel()
+    @State private var audioPlayer: AVAudioPlayer?
 
     var body: some View {
         NavigationStack{
@@ -86,6 +88,18 @@ struct ContentView: View {
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.medium, .large])
             })
+            .onAppear {
+                audioPlayer = AudioLoader.load(filename: "music4", fileType: "mp3")
+                
+                if let player = audioPlayer {
+                    player.play()
+                }
+            }
+            .onDisappear {
+                if let player = audioPlayer {
+                    player.pause()
+                }
+            }
         }//: NAVSTACK
     }
 }

@@ -8,6 +8,7 @@
 //    let numberOfColumns = [6, 3, 2, 6, 4, 7]
 
 import SwiftUI
+import AVFoundation
 
 struct GamingView: View {
     @State var userAnswer: [String]
@@ -20,7 +21,7 @@ struct GamingView: View {
     @State private var count = 0
     @State private var explanationCount = 0
     @State private var isExplaining = true
-
+    
     @State private var enterPressed = false
     @State private var enterPressed1 = false
     @State private var enterPressed2 = false
@@ -29,10 +30,15 @@ struct GamingView: View {
     @State private var enterPressed5 = false
     
     @State private var isTipsPressed = false
-        
+    
     @StateObject var viewModel = GamingDataModel()
     @Environment(\.dismiss) var dismiss
-
+    @State private var audioPlayer: AVAudioPlayer?
+    @State private var audioPlayer1: AVAudioPlayer?
+    @State private var audioPlayer2: AVAudioPlayer?
+    
+    
+    
     var body: some View {
         //MARK: - MAIN GAME VIEW.
         ZStack {
@@ -116,12 +122,15 @@ struct GamingView: View {
                         Squares(userAnswers: $userAnswer5, wordCount: viewModel.word5.count, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
                     }
                     .padding(.bottom, 30)
-//                    .offset(y: -100)
+                    //                    .offset(y: -100)
                     HStack {
                         
                         Button {
+                            if let player = audioPlayer {
+                                player.play()
+                            }
                             if viewModel.timeRemaining > 0 || !enterPressed5 {
-                                isTipsPressed.toggle()
+                                isTipsPressed = true
                             }
                         } label: {
                             ZStack{
@@ -136,30 +145,30 @@ struct GamingView: View {
                             }
                         }
                         .disabled(gameEnd)
-                                                         
+                        
                         Spacer().frame(width: 450)
                         
-//                        ZStack {
-//                            Rectangle()
-//                                .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
-//                                .frame(width: 107, height: 50)
-//                                .cornerRadius(13)
-//                                .shadow(color: Color.black, radius: 0, x: 0, y: 12)
-//                                .overlay(
-//                                    RoundedRectangle(cornerRadius: 13)
-//                                        .stroke(.black, lineWidth: 3)
-//                                )
-                            HStack(spacing: 3) {
-                                Image(systemName: "timer")
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.white)
-                                    .font(.title2)
-                                Text("\(viewModel.timeRemaining)")
-                                    .foregroundStyle(.white)
-                                    .font(.system(size: 27))
-                                    .fontWeight(.semibold)
-                            }
-//                        }//: ZSTACK
+                        //                        ZStack {
+                        //                            Rectangle()
+                        //                                .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
+                        //                                .frame(width: 107, height: 50)
+                        //                                .cornerRadius(13)
+                        //                                .shadow(color: Color.black, radius: 0, x: 0, y: 12)
+                        //                                .overlay(
+                        //                                    RoundedRectangle(cornerRadius: 13)
+                        //                                        .stroke(.black, lineWidth: 3)
+                        //                                )
+                        HStack(spacing: 3) {
+                            Image(systemName: "timer")
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.white)
+                                .font(.title2)
+                            Text("\(viewModel.timeRemaining)")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 27))
+                                .fontWeight(.semibold)
+                        }
+                        //                        }//: ZSTACK
                     }//: HSTACK
                     .padding(.bottom, 30)
                     ZStack {
@@ -311,7 +320,7 @@ struct GamingView: View {
                         }) //: KEYBOARD
                         .disabled(disableKeyboard)
                         .opacity(disableKeyboard ? 0 : 1)
-//                        .offset(y: 45)
+                        //                        .offset(y: 45)
                         
                         if disableKeyboard {
                             if isTipsPressed && viewModel.timeRemaining > 0 && !enterPressed5 {
@@ -319,7 +328,7 @@ struct GamingView: View {
                                     ChatView(phrase: translations)
                                         .offset(x: 50.27, y: 45)
                                     Button {
-                                        isTipsPressed.toggle()
+                                        isTipsPressed = false
                                     } label: {
                                         Image("Image 9")
                                             .resizable()
@@ -327,7 +336,7 @@ struct GamingView: View {
                                     }
                                     .offset(x: -43, y: -1)
                                 }
-
+                                
                             } else {
                                 VStack {
                                     ChatView(phrase: phrase)
@@ -342,7 +351,7 @@ struct GamingView: View {
                                     .offset(x: -43, y: -1)
                                 }
                             }
-
+                            
                         }
                     }//: ZSTACK
                 }
@@ -350,9 +359,21 @@ struct GamingView: View {
             .offset(y: viewModel.showTextField ? -70 : 0)
         }//: ZSTACK
         .onAppear {
+            audioPlayer = AudioLoader.load(filename: "music1", fileType: "mp3")
+            audioPlayer1 = AudioLoader.load(filename: "music2", fileType: "mp3")
+            audioPlayer2 = AudioLoader.load(filename: "music3", fileType: "mp3")
+            
+            if let player = audioPlayer2 {
+                player.play()
+            }
             if viewModel.selectedGameOption == 1 {
                 viewModel.startTimer() // calls functions to show the words
                 viewModel.startTimerView()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("PlayMusicNotification"))) { _ in
+            if let player = audioPlayer1 {
+                player.play()
             }
         }
     }
