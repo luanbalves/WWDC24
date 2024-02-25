@@ -31,6 +31,7 @@ struct GamingView: View {
     @State private var isTipsPressed = false
         
     @StateObject var viewModel = GamingDataModel()
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         //MARK: - MAIN GAME VIEW.
@@ -331,8 +332,8 @@ struct GamingView: View {
                                 VStack {
                                     ChatView(phrase: phrase)
                                         .offset(x: 50.27, y: 45)
-                                    NavigationLink {
-                                        ContentView()
+                                    Button {
+                                        dismiss()
                                     } label: {
                                         Image("Image 9")
                                             .resizable()
