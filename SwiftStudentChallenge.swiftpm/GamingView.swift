@@ -51,46 +51,20 @@ struct GamingView: View {
                             Button(action: {
                                 explanationCount += 1
                             }, label: {
-                                ZStack{
-                                    Rectangle()
-                                        .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.77))
-                                        .frame(width: 87, height: 37)
-                                        .cornerRadius(13)
-                                        .shadow(color: Color.black, radius: 0, x: 0, y: 4)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 13)
-                                                .stroke(.black, lineWidth: 1)
-                                        )
-                                    
-                                    Text("Next")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 23))
-                                        .fontWeight(.semibold)
-                                }
+                                Image("Image 8")
+                                    .resizable()
+                                    .frame(width: 46, height: 46)
                             })
-                            .offset(x: -77, y: -57)
+                            .offset(x: 137, y: -57)
                         } else {
                             Button(action: {
                                 isExplaining = false
                                 viewModel.startTimer()
                                 viewModel.startTimerView()
                             }, label: {
-                                ZStack{
-                                    Rectangle()
-                                        .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.77))
-                                        .frame(width: 87, height: 37)
-                                        .cornerRadius(13)
-                                        .shadow(color: Color.black, radius: 0, x: 0, y: 4)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 13)
-                                                .stroke(.black, lineWidth: 1)
-                                        )
-                                    
-                                    Text("Start")
-                                        .foregroundStyle(.white)
-                                        .font(.system(size: 23))
-                                        .fontWeight(.semibold)
-                                }
+                                Image("Image 9")
+                                    .resizable()
+                                    .frame(width: 46, height: 46)
                             })
                             .offset(x: -77, y: -57)
                         }
@@ -150,15 +124,9 @@ struct GamingView: View {
                             }
                         } label: {
                             ZStack{
-                                Rectangle()
-                                    .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
-                                    .frame(width: 107, height: 50)
-                                    .cornerRadius(13)
-                                    .shadow(color: Color.black, radius: 0, x: 0, y: 12)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 13)
-                                            .stroke(.black, lineWidth: 3)
-                                    )
+                                Image("Image 7")
+                                    .resizable()
+                                    .frame(width: 196, height: 55)
                                 
                                 Text("Tips")
                                     .foregroundStyle(.white)
@@ -170,16 +138,16 @@ struct GamingView: View {
                                                          
                         Spacer().frame(width: 450)
                         
-                        ZStack {
-                            Rectangle()
-                                .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
-                                .frame(width: 107, height: 50)
-                                .cornerRadius(13)
-                                .shadow(color: Color.black, radius: 0, x: 0, y: 12)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 13)
-                                        .stroke(.black, lineWidth: 3)
-                                )
+//                        ZStack {
+//                            Rectangle()
+//                                .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
+//                                .frame(width: 107, height: 50)
+//                                .cornerRadius(13)
+//                                .shadow(color: Color.black, radius: 0, x: 0, y: 12)
+//                                .overlay(
+//                                    RoundedRectangle(cornerRadius: 13)
+//                                        .stroke(.black, lineWidth: 3)
+//                                )
                             HStack(spacing: 3) {
                                 Image(systemName: "timer")
                                     .fontWeight(.semibold)
@@ -190,7 +158,7 @@ struct GamingView: View {
                                     .font(.system(size: 27))
                                     .fontWeight(.semibold)
                             }
-                        }//: ZSTACK
+//                        }//: ZSTACK
                     }//: HSTACK
                     .padding(.bottom, 30)
                     ZStack {

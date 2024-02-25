@@ -43,17 +43,9 @@ struct ContentView: View {
                     
                     NavigationLink(destination: GamingView(userAnswer: [""], userAnswer1: [""], userAnswer2: [""], userAnswer3: [""], userAnswer4: [""], userAnswer5: [""])) {
                         ZStack{
-                            Rectangle()
-                                .foregroundStyle(.black.opacity(0.07))
-//                                .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.9))
+                            Image("Image 7")
+                                .resizable()
                                 .frame(width: 196, height: 50)
-                                .cornerRadius(20)
-                                .shadow(color: Color.black.opacity(0.93), radius: 0, x: 0, y: 17)
-//                                .shadow(color: Color.black, radius: 7, x: 0, y: 4)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(.black, lineWidth: 1)
-                                )
                             HStack{
                                 Image(systemName: "play.circle")
                                     .foregroundStyle(.white)
@@ -75,26 +67,16 @@ struct ContentView: View {
                         isShowingHelp.toggle()
                     }, label: {
                         ZStack{
-                            Rectangle()
-                                .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.77))
-//                                .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.9))
+                            Image("Image 7")
+                                .resizable()
                                 .frame(width: 196, height: 50)
-//                                .cornerRadius(13)
-                                .shadow(color: Color.black, radius: 3, x: 7.3, y: 7.3)
-//                                .shadow(color: Color.black, radius: 7, x: 0, y: 4)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 13)
-                                        .stroke(.black, lineWidth: 2)
-                                )
                                 Text("Credits")
                                     .foregroundStyle(.white)
                                     .font(.system(size: 27))
                                     .fontWeight(.semibold)
                         }
                     })
-                    .buttonStyle(PlainButtonStyle())
-                    .background(Color.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+
                     .offset(x: 260, y: 320)
                     
                 }//: VSTACK
