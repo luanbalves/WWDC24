@@ -86,6 +86,29 @@ struct GamingView: View {
                 }
                 
                 if viewModel.showTextField { // show textfield when finish showing the words
+                    HStack {
+                        Image("Image 2")
+                            .resizable()
+                            .frame(width: 105.07, height: 104.66)
+                            .padding(.horizontal, 25)
+                        Image("Image 3")
+                            .resizable()
+                            .frame(width: 87.97, height: 105.93)
+                            .padding(.horizontal, 25)
+                        Image("Image 4")
+                            .resizable()
+                            .frame(width: 43.82, height: 107.44)
+                            .padding(.horizontal, 25)
+                        Image("Image 5")
+                            .resizable()
+                            .frame(width: 114.43, height: 106.4)
+                            .padding(.horizontal, 25)
+                        Image("Image 6")
+                            .resizable()
+                            .frame(width: 91.19, height: 105.46)
+                            .padding(.horizontal, 25)
+                    }
+                    .padding(.bottom)
                     
                     Group {
                         Squares(userAnswers: $userAnswer, wordCount: viewModel.word.count, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
@@ -95,12 +118,14 @@ struct GamingView: View {
                         Squares(userAnswers: $userAnswer4, wordCount: viewModel.word4.count, isLetterCorrect: viewModel.isLetterCorrectForWord4, buttonPressed: viewModel.buttonPressed)
                         Squares(userAnswers: $userAnswer5, wordCount: viewModel.word5.count, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
                     }
-                    .offset(y: -100)
+//                    .offset(y: -100)
                     
                     HStack {
                         
                         Button {
-                            isTipsPressed = true
+                            if viewModel.timeRemaining > 0 || !enterPressed5 {
+                                isTipsPressed.toggle()
+                            }
                         } label: {
                             ZStack{
                                 Rectangle()
@@ -119,25 +144,47 @@ struct GamingView: View {
                                     .fontWeight(.semibold)
                             }
                         }
+                        .disabled(gameEnd)
                         
-                        if isTipsPressed {
-                            VStack {
-                                
-                                Button {
-                                    isTipsPressed = false
-                                } label: {
-                                    Image(systemName: "x.square")
-                                        .foregroundStyle(.white)
-                                }
-                                
-                                Text("\(viewModel.translations[viewModel.word.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
-                                Text("\(viewModel.translations[viewModel.word1.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
-                                Text("\(viewModel.translations[viewModel.word2.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
-                                Text("\(viewModel.translations[viewModel.word3.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
-                                Text("\(viewModel.translations[viewModel.word4.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
-                                Text("\(viewModel.translations[viewModel.word5.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white)
-                            }//: VSTACK
-                        }
+//                        if isTipsPressed {
+//                            Spacer().frame(width: 100)
+//                            ZStack {
+//                                
+//                                Rectangle()
+//                                    .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
+//                                    .frame(width: 240, height: 99)
+//                                    .cornerRadius(13)
+//                                    .shadow(color: Color.black, radius: 0, x: 0, y: 12)
+//                                    .overlay(
+//                                        RoundedRectangle(cornerRadius: 13)
+//                                            .stroke(.black, lineWidth: 3)
+//                                    )
+//
+//                                
+//
+//                                HStack {
+//                                    VStack {
+//                                        Text("Here is the translations:")
+//                                        Text("\(viewModel.translations[viewModel.word.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
+//                                        Text("\(viewModel.translations[viewModel.word1.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
+//                                        Text("\(viewModel.translations[viewModel.word2.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
+//                                        Text("\(viewModel.translations[viewModel.word3.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
+//                                        Text("\(viewModel.translations[viewModel.word4.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
+//                                        Text("\(viewModel.translations[viewModel.word5.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
+//                                    }
+//                                    Button {
+//                                        isTipsPressed = false
+//                                    } label: {
+//                                        Image(systemName: "x.square")
+//                                            .foregroundStyle(.white)
+//                                    }
+//                                    Image("Image")
+//                                        .resizable()
+//                                        .frame(width: 85.44, height: 67)
+//                                }
+//                            }//: ZSTACK
+//                            .padding(.vertical)
+//                        }
                         
                         Spacer().frame(width: 450)
                         
@@ -312,15 +359,22 @@ struct GamingView: View {
                         }) //: KEYBOARD
                         .disabled(disableKeyboard)
                         .opacity(disableKeyboard ? 0 : 1)
-                        .offset(y: 45)
+//                        .offset(y: 45)
                         
                         if disableKeyboard {
-                            ChatView(phrase: phrase)
-                                .offset(x: 50.27, y: 45)
+                            if isTipsPressed && viewModel.timeRemaining > 0 && !enterPressed5 {
+                                ChatView(phrase: "Traduções")
+                                    .offset(x: 50.27, y: 45)
+                            } else {
+                                ChatView(phrase: phrase)
+                                    .offset(x: 50.27, y: 45)
+                            }
+
                         }
                     }//: ZSTACK
                 }
             }//: VSTACK
+            .offset(y: viewModel.showTextField ? -100 : 0)
         }//: ZSTACK
         .onAppear {
             if viewModel.selectedGameOption == 1 {
@@ -333,6 +387,13 @@ struct GamingView: View {
 
 extension GamingView {
     var disableKeyboard: Bool {
+        if viewModel.timeRemaining == 0 || enterPressed5 || isTipsPressed {
+            return true
+        }
+        return false
+    }
+    
+    var gameEnd: Bool {
         if viewModel.timeRemaining == 0 || enterPressed5 {
             return true
         }

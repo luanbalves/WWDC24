@@ -15,6 +15,7 @@ struct ContentView: View {
                 Colors.BlackBoard.mainColor
                     .frame(width: 770, height: 1084)
                     .cornerRadius(45)
+                MotionAnimationView()
                 VStack {
                     Image("Image 1")
                         .resizable()
