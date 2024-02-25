@@ -54,7 +54,7 @@ struct GamingView: View {
                     VStack {
                         ChatView(phrase: explanation)
                         
-                        if explanationCount < 2 {
+                        if explanationCount < 6 {
                             Button(action: {
                                 explanationCount += 1
                             }, label: {
@@ -418,11 +418,19 @@ Here is the translations:
     
     var explanation: String {
         if explanationCount == 0 {
-            return "Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto"
+            return "Hi! My name is Asheley, and I'm in college to become a Portuguese/English teacher. My boyfriend always struggled to study English in traditional schools;"
         } else if explanationCount == 1{
-            return "Segunda frase"
+            return "their methods, focusing on spelling rules, ended up being a hindrance, so he couldn't learn. What helped him was writing key words in both Portuguese and English in his notebooks, and later revisiting those words,"
+        } else if explanationCount == 2{
+            return "thus helping to memorize English and understand their real meaning in the language. I noticed this frequently when I started having practical classes; students would get lost in all the grammar,"
+        } else if explanationCount == 3{
+            return "but advising them to do the same as Luan, they were able to feel a progress in memorization. In this regard, my boyfriend developed a game so that others could try this technique and hopefully help many more people gain access to English."
+        } else if explanationCount == 4{
+            return "The goal of the game is to help you learn English, using memorization techniques with the most used words in the language, the focus is for you to learn the words necessary to build a linguistic base for conversation, since the 1000 most used words are essential for a conversation to flow."
+        } else if explanationCount == 5{
+            return "6 words will automatically appear every 1 second, you must memorize them, after they all appear the game begins. You will have 60 seconds to fill in the fields with the 6 words."
         } else {
-            return "Terceira frase"
+            return "The Enter key confirms the word and goes to the next line, you cannot go back after confirming, when you type the last word and press Enter the game ends. You can press the tips button to see the translation of the words in Portuguese.\n       Are you ready?"
         }
     }
 }
