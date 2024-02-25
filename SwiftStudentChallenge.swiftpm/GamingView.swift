@@ -73,7 +73,7 @@ struct GamingView: View {
                             .offset(x: 0, y: -57)
                         }
                     }
-                    .offset(x: 50.27, y: 337)
+                    .offset(x: 50.27, y: 377)
                 }
                 
                 if viewModel.currentWordIndex < viewModel.words.count { // Show the words then start
