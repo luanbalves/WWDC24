@@ -51,26 +51,48 @@ struct GamingView: View {
                             Button(action: {
                                 explanationCount += 1
                             }, label: {
-                                Text("Next")
+                                ZStack{
+                                    Rectangle()
+                                        .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.77))
+                                        .frame(width: 87, height: 37)
+                                        .cornerRadius(13)
+                                        .shadow(color: Color.black, radius: 0, x: 0, y: 4)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 13)
+                                                .stroke(.black, lineWidth: 1)
+                                        )
+                                    
+                                    Text("Next")
+                                        .foregroundStyle(.white)
+                                        .font(.system(size: 23))
+                                        .fontWeight(.semibold)
+                                }
                             })
-                            .foregroundStyle(.white)
-                            .frame(width: 150, height: 40)
-                            .background(.black)
-                            .cornerRadius(12)
-                            .offset(x: 0, y: -57)
+                            .offset(x: -77, y: -57)
                         } else {
                             Button(action: {
                                 isExplaining = false
                                 viewModel.startTimer()
                                 viewModel.startTimerView()
                             }, label: {
-                                Text("Start")
+                                ZStack{
+                                    Rectangle()
+                                        .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.77))
+                                        .frame(width: 87, height: 37)
+                                        .cornerRadius(13)
+                                        .shadow(color: Color.black, radius: 0, x: 0, y: 4)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 13)
+                                                .stroke(.black, lineWidth: 1)
+                                        )
+                                    
+                                    Text("Start")
+                                        .foregroundStyle(.white)
+                                        .font(.system(size: 23))
+                                        .fontWeight(.semibold)
+                                }
                             })
-                            .foregroundStyle(.white)
-                            .frame(width: 150, height: 40)
-                            .background(.black)
-                            .cornerRadius(12)
-                            .offset(x: 0, y: -57)
+                            .offset(x: -77, y: -57)
                         }
                     }
                     .offset(x: 50.27, y: 377)
@@ -385,7 +407,7 @@ Here is the translations:
     
     var explanation: String {
         if explanationCount == 0 {
-            return "Aqui é o primeiro texto"
+            return "Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto Aqui é o primeiro texto"
         } else if explanationCount == 1{
             return "Segunda frase"
         } else {
