@@ -42,37 +42,36 @@ struct ContentView: View {
                     }
                     
                     NavigationLink(destination: GamingView(userAnswer: [""], userAnswer1: [""], userAnswer2: [""], userAnswer3: [""], userAnswer4: [""], userAnswer5: [""])) {
-                        HStack(spacing: 5){
-                            Image(systemName: "play.circle")
-                            Text("START")
+                        ZStack{
+                            Rectangle()
+                                .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.77))
+//                                .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.9))
+                                .frame(width: 196, height: 50)
+//                                .cornerRadius(13)
+                                .shadow(color: Color.black, radius: 3, x: 7.3, y: 7.3)
+//                                .shadow(color: Color.black, radius: 7, x: 0, y: 4)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 13)
+                                        .stroke(.black, lineWidth: 2)
+                                )
+                            HStack{
+                                Image(systemName: "play.circle")
+                                    .foregroundStyle(.white)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                
+                                Text("Start")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 27))
+                                    .fontWeight(.semibold)
+                            }
                         }
-                        .fontWeight(.semibold)
-                        .frame(width:100, height: 52)
+
                     }
                     .buttonStyle(PlainButtonStyle())
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                 }//: VSTACK
-//                .toolbar {
-//                    ToolbarItem(placement: .topBarLeading) {
-//                        Button(action: {
-//                            isShowingHelp.toggle()
-//                        }, label: {
-//                            Image(systemName: "questionmark.circle")
-//                        })
-//                    }
-//                    
-//                    ToolbarItem(placement: .principal) {
-//                        Text("Título".uppercased())
-//                            .font(.largeTitle)
-//                            .fontWeight(.heavy)
-//                            .background(
-//                                Color.primary
-//                                    .frame(height: 6)
-//                                    .offset(y: 24)
-//                            )
-//                    }
-//                }
             }
             .sheet(isPresented: $isShowingHelp, content: {
                 HelpView()
