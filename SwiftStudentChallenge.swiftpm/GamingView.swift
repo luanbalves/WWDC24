@@ -412,9 +412,6 @@ extension GamingView {
     
     var translations: String {
         return """
-
-
-
 Here is the translations:
 \(viewModel.translations[viewModel.word.lowercased()]?.uppercased() ?? "No translatation")
 \(viewModel.translations[viewModel.word1.lowercased()]?.uppercased() ?? "No translatation")

@@ -20,9 +20,11 @@ struct ChatView: View {
             HStack {
                 Text(phrase)
                     .foregroundStyle(.black)
-                    .offset(y: -40)
+//                    .offset(y: -40)
                     .multilineTextAlignment(.center)
-                    .frame(width: 269)
+                    .frame(width: 400)
+                    .padding(.horizontal, 57)
+                    .font(.headline)
                 VStack(spacing: 0) {
 //                    Circle()
 //                        .foregroundStyle(.black).opacity(0.6)
@@ -47,7 +49,7 @@ struct ChatView: View {
                     }//: ZSTACK
                     .offset(y: -13)
                 }//: VSTACK
-                .offset(x: 120)
+//                .offset(x: 120)
             }//: HSTACK
         }//: ZSTACK
     }
@@ -70,6 +72,6 @@ extension ChatView {
 }
 
 #Preview {
-    ChatView(phrase: "....")
+    ChatView(phrase: "You're on fire! Keep up the great work!. The words were: SIMPLE, CAN, BE, HARDER, THAN, COMPLEX.")
         .preferredColorScheme(.dark)
 }
