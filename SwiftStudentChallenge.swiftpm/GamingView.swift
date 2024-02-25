@@ -332,9 +332,9 @@ struct GamingView: View {
                                     } label: {
                                         Image("Image 9")
                                             .resizable()
-                                            .frame(width: 37, height: 37)
+                                            .frame(width: 46, height: 46)
                                     }
-                                    .offset(x: -43, y: -1)
+                                    .offset(x: 87, y: -87) // 77 -15
                                 }
                                 
                             } else {
@@ -346,9 +346,9 @@ struct GamingView: View {
                                     } label: {
                                         Image("Image 9")
                                             .resizable()
-                                            .frame(width: 37, height: 37)
+                                            .frame(width: 46, height: 46)
                                     }
-                                    .offset(x: -43, y: -1)
+                                    .offset(x: -43, y: -15)
                                 }
                             }
                             
