@@ -314,11 +314,32 @@ struct GamingView: View {
                         
                         if disableKeyboard {
                             if isTipsPressed && viewModel.timeRemaining > 0 && !enterPressed5 {
-                                ChatView(phrase: translations)
-                                    .offset(x: 50.27, y: 45)
+                                VStack {
+                                    ChatView(phrase: translations)
+                                        .offset(x: 50.27, y: 45)
+                                    Button {
+                                        isTipsPressed.toggle()
+                                    } label: {
+                                        Image("Image 9")
+                                            .resizable()
+                                            .frame(width: 37, height: 37)
+                                    }
+                                    .offset(x: -43, y: -1)
+                                }
+
                             } else {
-                                ChatView(phrase: phrase)
-                                    .offset(x: 50.27, y: 45)
+                                VStack {
+                                    ChatView(phrase: phrase)
+                                        .offset(x: 50.27, y: 45)
+                                    NavigationLink {
+                                        ContentView()
+                                    } label: {
+                                        Image("Image 9")
+                                            .resizable()
+                                            .frame(width: 37, height: 37)
+                                    }
+                                    .offset(x: -43, y: -1)
+                                }
                             }
 
                         }

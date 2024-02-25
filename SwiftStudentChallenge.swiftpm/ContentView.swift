@@ -86,6 +86,7 @@ struct ContentView: View {
                     .presentationDragIndicator(.visible)
                     .presentationDetents([.medium, .large])
             })
+            .navigationBarBackButtonHidden()
         }//: NAVSTACK
     }
 }
