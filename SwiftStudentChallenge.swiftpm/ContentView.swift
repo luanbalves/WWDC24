@@ -66,15 +66,43 @@ struct ContentView: View {
                                     .fontWeight(.semibold)
                             }
                         }
-
                     }
                     .buttonStyle(PlainButtonStyle())
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
+                    
+                    Button(action: {
+                        isShowingHelp.toggle()
+                    }, label: {
+                        ZStack{
+                            Rectangle()
+                                .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.77))
+//                                .foregroundStyle(Colors.BlackBoard.mainColor.opacity(0.9))
+                                .frame(width: 196, height: 50)
+//                                .cornerRadius(13)
+                                .shadow(color: Color.black, radius: 3, x: 7.3, y: 7.3)
+//                                .shadow(color: Color.black, radius: 7, x: 0, y: 4)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 13)
+                                        .stroke(.black, lineWidth: 2)
+                                )
+                                Text("Credits")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 27))
+                                    .fontWeight(.semibold)
+                        }
+                    })
+                    .buttonStyle(PlainButtonStyle())
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .offset(x: 260, y: 320)
+                    
                 }//: VSTACK
             }
             .sheet(isPresented: $isShowingHelp, content: {
-                HelpView()
+                CreditsView()
+                    .presentationDragIndicator(.visible)
+                    .presentationDetents([.medium, .large])
             })
         }//: NAVSTACK
     }
