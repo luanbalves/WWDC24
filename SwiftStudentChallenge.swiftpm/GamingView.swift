@@ -108,9 +108,9 @@ struct GamingView: View {
                             .frame(width: 91.19, height: 105.46)
                             .padding(.horizontal, 25)
                     }
-                    .padding(.bottom)
+                    .padding(.bottom, 30)
                     
-                    Group {
+                    VStack {
                         Squares(userAnswers: $userAnswer, wordCount: viewModel.word.count, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
                         Squares(userAnswers: $userAnswer1, wordCount: viewModel.word1.count, isLetterCorrect: viewModel.isLetterCorrectForWord1, buttonPressed: viewModel.buttonPressed)
                         Squares(userAnswers: $userAnswer2, wordCount: viewModel.word2.count, isLetterCorrect: viewModel.isLetterCorrectForWord2, buttonPressed: viewModel.buttonPressed)
@@ -118,8 +118,8 @@ struct GamingView: View {
                         Squares(userAnswers: $userAnswer4, wordCount: viewModel.word4.count, isLetterCorrect: viewModel.isLetterCorrectForWord4, buttonPressed: viewModel.buttonPressed)
                         Squares(userAnswers: $userAnswer5, wordCount: viewModel.word5.count, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
                     }
+                    .padding(.bottom, 30)
 //                    .offset(y: -100)
-                    
                     HStack {
                         
                         Button {
@@ -145,47 +145,7 @@ struct GamingView: View {
                             }
                         }
                         .disabled(gameEnd)
-                        
-//                        if isTipsPressed {
-//                            Spacer().frame(width: 100)
-//                            ZStack {
-//                                
-//                                Rectangle()
-//                                    .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
-//                                    .frame(width: 240, height: 99)
-//                                    .cornerRadius(13)
-//                                    .shadow(color: Color.black, radius: 0, x: 0, y: 12)
-//                                    .overlay(
-//                                        RoundedRectangle(cornerRadius: 13)
-//                                            .stroke(.black, lineWidth: 3)
-//                                    )
-//
-//                                
-//
-//                                HStack {
-//                                    VStack {
-//                                        Text("Here is the translations:")
-//                                        Text("\(viewModel.translations[viewModel.word.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
-//                                        Text("\(viewModel.translations[viewModel.word1.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
-//                                        Text("\(viewModel.translations[viewModel.word2.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
-//                                        Text("\(viewModel.translations[viewModel.word3.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
-//                                        Text("\(viewModel.translations[viewModel.word4.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
-//                                        Text("\(viewModel.translations[viewModel.word5.lowercased()]?.uppercased() ?? "No translatation")").foregroundStyle(.white).font(.footnote).bold()
-//                                    }
-//                                    Button {
-//                                        isTipsPressed = false
-//                                    } label: {
-//                                        Image(systemName: "x.square")
-//                                            .foregroundStyle(.white)
-//                                    }
-//                                    Image("Image")
-//                                        .resizable()
-//                                        .frame(width: 85.44, height: 67)
-//                                }
-//                            }//: ZSTACK
-//                            .padding(.vertical)
-//                        }
-                        
+                                                         
                         Spacer().frame(width: 450)
                         
                         ZStack {
@@ -210,6 +170,7 @@ struct GamingView: View {
                             }
                         }//: ZSTACK
                     }//: HSTACK
+                    .padding(.bottom, 30)
                     ZStack {
                         //MARK: - KEYBOARD VIEW AND FUNCTIONS.
                         KeyboardView(onKeyPress: { key in
@@ -374,7 +335,7 @@ struct GamingView: View {
                     }//: ZSTACK
                 }
             }//: VSTACK
-            .offset(y: viewModel.showTextField ? -100 : 0)
+            .offset(y: viewModel.showTextField ? -70 : 0)
         }//: ZSTACK
         .onAppear {
             if viewModel.selectedGameOption == 1 {
