@@ -363,7 +363,7 @@ struct GamingView: View {
                         
                         if disableKeyboard {
                             if isTipsPressed && viewModel.timeRemaining > 0 && !enterPressed5 {
-                                ChatView(phrase: "Traduções")
+                                ChatView(phrase: translations)
                                     .offset(x: 50.27, y: 45)
                             } else {
                                 ChatView(phrase: phrase)
@@ -408,6 +408,21 @@ extension GamingView {
         } else {
             return Phrases.someMistakes.randomElement() ?? "Some mistakes"
         }
+    }
+    
+    var translations: String {
+        return """
+
+
+
+Here is the translations:
+\(viewModel.translations[viewModel.word.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word1.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word2.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word3.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word4.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word5.lowercased()]?.uppercased() ?? "No translatation")
+"""
     }
     
     var explanation: String {
