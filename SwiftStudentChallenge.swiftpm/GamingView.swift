@@ -402,11 +402,11 @@ extension GamingView {
     
     var phrase: String {
         if viewModel.timeRemaining == 0 {
-            return Phrases.timesUP.randomElement() ?? "Time is up"
+            return "\(Phrases.timesUP.randomElement() ?? "Time is up")"  + "\nThe words were: \(viewModel.word), \(viewModel.word1), \(viewModel.word2), \(viewModel.word3), \(viewModel.word4), \(viewModel.word5)"
         } else if viewModel.areAllWordsCorrectAll(userAnswers: userAnswer, userAnswers1: userAnswer1, userAnswers2: userAnswer2, userAnswers3: userAnswer3, userAnswers4: userAnswer4, userAnswers5: userAnswer5) {
-            return Phrases.correctPhrases.randomElement() ?? "All correct"
+            return "\(Phrases.correctPhrases.randomElement() ?? "All correct")" + "\nThe words were: \(viewModel.word), \(viewModel.word1), \(viewModel.word2), \(viewModel.word3), \(viewModel.word4), \(viewModel.word5)"
         } else {
-            return Phrases.someMistakes.randomElement() ?? "Some mistakes"
+            return "\(Phrases.someMistakes.randomElement() ?? "Some mistakes")" + "\nThe words were: \(viewModel.word), \(viewModel.word1), \(viewModel.word2), \(viewModel.word3), \(viewModel.word4), \(viewModel.word5)"
         }
     }
     
