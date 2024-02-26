@@ -426,7 +426,7 @@ Here is the translations:
         } else if explanationCount == 3{
             return "but advising them to do the same as Luan, they were able to feel a progress in memorization. In this regard, my boyfriend developed a game so that others could try this technique and hopefully help many more people gain access to English."
         } else if explanationCount == 4{
-            return "The goal of the game is to help you learn English, using memorization techniques with the most used words in the language, the focus is for you to learn the words necessary to build a linguistic base for conversation, since the 1000 most used words are essential for a conversation to flow."
+            return "The goal of the game is to help you learn English, using memorization techniques with the most used words in the language, the focus is for you to learn the essencial words to build a linguistic base for conversation, since the 1000 most used words are essential for a conversation to flow."
         } else if explanationCount == 5{
             return "6 words will automatically appear every 1 second, you must memorize them, after they all appear the game begins. You will have 60 seconds to fill in the fields with the 6 words."
         } else {
