@@ -1,68 +1,105 @@
 import SwiftUI
+import AVFoundation
 
 struct ContentView: View {
     @State private var isShowingHelp = false
-    @State private var selectedGameOption = 0
-    let gameOptions = ["1000 MOST USED WORDS", "2000 MOST USED WORDS", "ALL"]
-    @State private var selectedLanguageOption = 0
-    let languageOptions = ["English", "Portuguese", "Spanish"]
+    let gameOptions = ["SSC", "1000 MOST USED WORDS"]
+    @State var selectedLanguageOption = 0
+    let languageOptions = ["ENGLISH"]
+    @StateObject var viewModel = GamingDataModel()
+    @State private var audioPlayer: AVAudioPlayer?
+
     var body: some View {
         NavigationStack{
-            VStack {
-                
-                Text("Select the language:")
-                    .padding(.bottom, -10)
-                Picker("Options:", selection: $selectedLanguageOption) {
-                    Text(languageOptions[0]).tag(0)
-                    Text(languageOptions[1]).tag(1)
-                    Text(languageOptions[2]).tag(2)
-                }
-                
-                Text("Select the game mode:")
-                    .padding(.bottom, -10)
-                Picker("Options:", selection: $selectedGameOption) {
-                    Text(gameOptions[0]).tag(0)
-                    Text(gameOptions[1]).tag(1)
-                    Text(gameOptions[2]).tag(2)
-                }
-//                .background(Color.cyan)
-//                .clipShape(RoundedRectangle(cornerRadius: 10))
-                
-                NavigationLink(destination: GamingView()) {
-                    HStack(spacing: 5){
-                        Image(systemName: "play.circle")
-                        Text("START")
+            ZStack {
+                Colors.Background.mainColor
+                    .ignoresSafeArea(.all)
+                Colors.BlackBoard.mainColor
+                    .frame(width: 770, height: 1084)
+                    .cornerRadius(45)
+                MotionAnimationView()
+                VStack {
+                    Image("Image 1")
+                        .resizable()
+                        .frame(width: 704, height: 90)
+                        .padding()
+                    Text("Select the language:")
+                        .padding(.bottom, -10)
+                        .foregroundStyle(.white)
+                        .fontWeight(.semibold)
+                        .font(.title2)
+                    Picker("Options:", selection: $selectedLanguageOption) {
+                        Text(languageOptions[0]).tag(0)
                     }
-                    .fontWeight(.semibold)
-                    .frame(width:100, height: 52)
-                }
-                .buttonStyle(PlainButtonStyle())
-                .background(Color.accentColor)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-            }//: VSTACK
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                    
+                    Text("Select the game mode:")
+                        .padding(.bottom, -10)
+                        .foregroundStyle(.white)
+                        .fontWeight(.semibold)
+                        .font(.title2)
+                    
+                    Picker("Options:", selection: $viewModel.selectedGameOption) {
+                        Text(gameOptions[0]).tag(0)
+                        Text(gameOptions[1]).tag(1)
+                    }
+                    
+                    NavigationLink(destination: GamingView(userAnswer: [""], userAnswer1: [""], userAnswer2: [""], userAnswer3: [""], userAnswer4: [""], userAnswer5: [""])) {
+                        ZStack{
+                            Image("Image 7")
+                                .resizable()
+                                .frame(width: 196, height: 50)
+                            HStack{
+                                Image(systemName: "play.circle")
+                                    .foregroundStyle(.white)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                
+                                Text("Start")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 27))
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                    }
+//                    .buttonStyle(PlainButtonStyle())
+//                    .background(Color.white)
+//                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    
                     Button(action: {
                         isShowingHelp.toggle()
                     }, label: {
-                        Image(systemName: "questionmark.circle")
+                        ZStack{
+                            Image("Image 7")
+                                .resizable()
+                                .frame(width: 196, height: 50)
+                                Text("Credits")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 27))
+                                    .fontWeight(.semibold)
+                        }
                     })
-                }
-                
-                ToolbarItem(placement: .principal) {
-                    Text("Título".uppercased())
-                        .font(.largeTitle)
-                        .fontWeight(.heavy)
-                        .background(
-                            Color.primary
-                                .frame(height: 6)
-                                .offset(y: 24)
-                        )
-                }
+
+                    .offset(x: 260, y: 320)
+                    
+                }//: VSTACK
             }
             .sheet(isPresented: $isShowingHelp, content: {
-                HelpView()
+                CreditsView()
+                    .presentationDragIndicator(.visible)
+                    .presentationDetents([.medium, .large])
             })
+            .onAppear {
+                audioPlayer = AudioLoader.load(filename: "music4", fileType: "mp3")
+                
+                if let player = audioPlayer {
+                    player.play()
+                }
+            }
+            .onDisappear {
+                if let player = audioPlayer {
+                    player.pause()
+                }
+            }
         }//: NAVSTACK
     }
 }

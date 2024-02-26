@@ -4,205 +4,437 @@
 //
 //  Created by Luan Alves Barroso on 02/01/24.
 //
-//    let words = ["simple", "is", "harder", "than", "complex"]
-//    let numberOfColumns = [6, 2, 6, 4, 7]
+//    let words = ["simple", "can", "be", "harder", "than", "complex"]
+//    let numberOfColumns = [6, 3, 2, 6, 4, 7]
 
 import SwiftUI
+import AVFoundation
 
 struct GamingView: View {
-    let words = ["EU", "ESTOU", "DESENVOLVENDO"]
-    let numberOfColumns = [2, 5, 13]
+    @State var userAnswer: [String]
+    @State var userAnswer1: [String]
+    @State var userAnswer2: [String]
+    @State var userAnswer3: [String]
+    @State var userAnswer4: [String]
+    @State var userAnswer5: [String]
     
-    @State private var currentWordIndex = 0
-    @State private var feedbackMessage: String? = nil
-    @State private var showTextField = false
-    @State private var userAnswers: [String] = []
+    @State private var count = 0
+    @State private var explanationCount = 0
+    @State private var isExplaining = true
+    
+    @State private var enterPressed = false
+    @State private var enterPressed1 = false
+    @State private var enterPressed2 = false
+    @State private var enterPressed3 = false
+    @State private var enterPressed4 = false
+    @State private var enterPressed5 = false
+    
+    @State private var isTipsPressed = false
+    
+    @StateObject var viewModel = GamingDataModel()
+    @Environment(\.dismiss) var dismiss
+    @State private var audioPlayer: AVAudioPlayer?
+    @State private var audioPlayer1: AVAudioPlayer?
+    @State private var audioPlayer2: AVAudioPlayer?
+    
+    
     
     var body: some View {
-        VStack {
-            if currentWordIndex < words.count {
-                Text(words[currentWordIndex])
-                    .font(.title)
-                    .padding()
-                    .opacity(showTextField ? 0 : 1)
-            }
-            
-            if showTextField {
-                VStack {
-                    ForEach(0..<numberOfColumns.count, id: \.self) { colIndex in
-                        HStack {
-                            ForEach(0..<numberOfColumns[colIndex], id: \.self) { rowIndex in
-                                let index = rowIndex + colIndex * numberOfColumns.max()!
-                                
-                                if index < userAnswers.count {
-                                    let isCorrect = isLetterCorrect(wordIndex: colIndex, letterIndex: rowIndex, userAnswer: userAnswers[index])
-
-                                           
-                                    TextView(bindingText: $userAnswers[index], onEditingChanged: { _ in }, isCorrect: isCorrect)
-                                        .multilineTextAlignment(.center)
-                                        .frame(width: 50, height: 50)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(Color.black, lineWidth: 1)
-                                        )
-                                        .keyboardType(.alphabet)
-                                        .onReceive(NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification)) { _ in
-                                            if userAnswers[index].count > 1 {
-                                                userAnswers[index] = String(userAnswers[index].prefix(1))
-                                            }
-                                        }
-                                }
-                            }
+        //MARK: - MAIN GAME VIEW.
+        ZStack {
+            Colors.Background.mainColor
+                .ignoresSafeArea(.all)
+            Colors.BlackBoard.mainColor
+                .frame(width: 770, height: 1084)
+                .cornerRadius(45)
+                .offset(y: -23)
+            VStack {
+                
+                if viewModel.selectedGameOption == 0 && isExplaining == true {
+                    VStack {
+                        ChatView(phrase: explanation)
+                        
+                        if explanationCount < 6 {
+                            Button(action: {
+                                explanationCount += 1
+                            }, label: {
+                                Image("Image 8")
+                                    .resizable()
+                                    .frame(width: 46, height: 46)
+                            })
+                            .offset(x: 137, y: -57)
+                        } else {
+                            Button(action: {
+                                isExplaining = false
+                                viewModel.startTimer()
+                                viewModel.startTimerView()
+                            }, label: {
+                                Image("Image 9")
+                                    .resizable()
+                                    .frame(width: 46, height: 46)
+                            })
+                            .offset(x: -77, y: -57)
                         }
                     }
+                    .offset(x: 50.27, y: 377)
                 }
-                .padding()
-            }
-            
-            Button("Verificar") {
-                checkAnswer()
-            }
-            .padding()
-            .disabled(!allFieldsFilled() || !showTextField)
-
-            if let feedbackMessage = feedbackMessage {
-                Text(feedbackMessage)
-                    .foregroundColor(feedbackMessage == "Correto!" ? .green : .red)
-                    .padding()
-            }
-        }
+                
+                if viewModel.currentWordIndex < viewModel.words.count { // Show the words then start
+                    Text(viewModel.words[viewModel.currentWordIndex])
+                        .fontWeight(.semibold)
+                        .padding()
+                        .opacity(viewModel.showTextField ? 0 : 1)
+                        .font(.system(size: 47))
+                        .foregroundStyle(.white)
+                }
+                
+                if viewModel.showTextField { // show textfield when finish showing the words
+                    HStack {
+                        Image("Image 2")
+                            .resizable()
+                            .frame(width: 105.07, height: 104.66)
+                            .padding(.horizontal, 25)
+                        Image("Image 3")
+                            .resizable()
+                            .frame(width: 87.97, height: 105.93)
+                            .padding(.horizontal, 25)
+                        Image("Image 4")
+                            .resizable()
+                            .frame(width: 43.82, height: 107.44)
+                            .padding(.horizontal, 25)
+                        Image("Image 5")
+                            .resizable()
+                            .frame(width: 114.43, height: 106.4)
+                            .padding(.horizontal, 25)
+                        Image("Image 6")
+                            .resizable()
+                            .frame(width: 91.19, height: 105.46)
+                            .padding(.horizontal, 25)
+                    }
+                    .padding(.bottom, 30)
+                    
+                    VStack {
+                        Squares(userAnswers: $userAnswer, wordCount: viewModel.word.count, isLetterCorrect: viewModel.isLetterCorrectForWord, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer1, wordCount: viewModel.word1.count, isLetterCorrect: viewModel.isLetterCorrectForWord1, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer2, wordCount: viewModel.word2.count, isLetterCorrect: viewModel.isLetterCorrectForWord2, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer3, wordCount: viewModel.word3.count, isLetterCorrect: viewModel.isLetterCorrectForWord3, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer4, wordCount: viewModel.word4.count, isLetterCorrect: viewModel.isLetterCorrectForWord4, buttonPressed: viewModel.buttonPressed)
+                        Squares(userAnswers: $userAnswer5, wordCount: viewModel.word5.count, isLetterCorrect: viewModel.isLetterCorrectForWord5, buttonPressed: viewModel.buttonPressed)
+                    }
+                    .padding(.bottom, 30)
+                    //                    .offset(y: -100)
+                    HStack {
+                        
+                        Button {
+                            if let player = audioPlayer {
+                                player.play()
+                            }
+                            if viewModel.timeRemaining > 0 || !enterPressed5 {
+                                isTipsPressed = true
+                            }
+                        } label: {
+                            ZStack{
+                                Image("Image 7")
+                                    .resizable()
+                                    .frame(width: 196, height: 55)
+                                
+                                Text("Tips")
+                                    .foregroundStyle(.white)
+                                    .font(.system(size: 27))
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        .disabled(gameEnd)
+                        
+                        Spacer().frame(width: 450)
+                        
+                        //                        ZStack {
+                        //                            Rectangle()
+                        //                                .foregroundStyle(Colors.Chat.mainColor.opacity(0.07))
+                        //                                .frame(width: 107, height: 50)
+                        //                                .cornerRadius(13)
+                        //                                .shadow(color: Color.black, radius: 0, x: 0, y: 12)
+                        //                                .overlay(
+                        //                                    RoundedRectangle(cornerRadius: 13)
+                        //                                        .stroke(.black, lineWidth: 3)
+                        //                                )
+                        HStack(spacing: 3) {
+                            Image(systemName: "timer")
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.white)
+                                .font(.title2)
+                            Text("\(viewModel.timeRemaining)")
+                                .foregroundStyle(.white)
+                                .font(.system(size: 27))
+                                .fontWeight(.semibold)
+                        }
+                        //                        }//: ZSTACK
+                    }//: HSTACK
+                    .padding(.bottom, 30)
+                    ZStack {
+                        //MARK: - KEYBOARD VIEW AND FUNCTIONS.
+                        KeyboardView(onKeyPress: { key in
+                            //MARK: - THE NEXT WORD(LINE) LOGIC
+                            // if the user press enter, and the word is filled with a word, then go to next line, the enterpressed is just to not have a loop
+                            if key == "Enter" && userAnswer.last != "" && enterPressed == false {
+                                count = count + 1
+                                enterPressed = true
+                                if viewModel.areAllWordsCorrect(userAnswers: userAnswer) {
+                                    print("Palavra correta")
+                                }
+                            }
+                            if key == "Enter" && userAnswer1.last != "" && enterPressed1 == false {
+                                count = count + 1
+                                enterPressed1 = true
+                                if viewModel.areAllWordsCorrect1(userAnswers: userAnswer1) {
+                                    print("Palavra correta2")
+                                }
+                            }
+                            if key == "Enter" && userAnswer2.last != "" && enterPressed2 == false {
+                                count = count + 1
+                                enterPressed2 = true
+                            }
+                            if key == "Enter" && userAnswer3.last != "" && enterPressed3 == false {
+                                count = count + 1
+                                enterPressed3 = true
+                            }
+                            if key == "Enter" && userAnswer4.last != "" && enterPressed4 == false {
+                                count = count + 1
+                                enterPressed4 = true
+                            }
+                            if key == "Enter" && userAnswer5.last != "" && enterPressed5 == false {
+                                count = count + 1
+                                enterPressed5 = true
+                                viewModel.buttonPressed.toggle() // Change the color line of the square
+                                viewModel.timer?.invalidate()
+                            }
+                            
+                            //MARK: - Fill the text fields and delete logic.
+                            if count == 0 {
+                                if key == "Delete" {
+                                    guard let lastNonEmptyFieldIndex = userAnswer.lastIndex(where: { !$0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    userAnswer[lastNonEmptyFieldIndex] = "" // delete the word in the last field
+                                } else {
+                                    guard let firstEmptyFieldIndex = userAnswer.firstIndex(where: { $0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    if key != "Enter" { // Just to not put enter in the field
+                                        userAnswer[firstEmptyFieldIndex] = key // put the word pressed in the field
+                                    }
+                                }
+                            }
+                            
+                            if count == 1 {
+                                if key == "Delete" {
+                                    guard let lastNonEmptyFieldIndex = userAnswer1.lastIndex(where: { !$0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    userAnswer1[lastNonEmptyFieldIndex] = ""
+                                } else {
+                                    guard let firstEmptyFieldIndex = userAnswer1.firstIndex(where: { $0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    if key != "Enter" {
+                                        userAnswer1[firstEmptyFieldIndex] = key
+                                    }
+                                }
+                            }
+                            
+                            if count == 2 {
+                                if key == "Delete" {
+                                    guard let lastNonEmptyFieldIndex = userAnswer2.lastIndex(where: { !$0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    userAnswer2[lastNonEmptyFieldIndex] = ""
+                                } else {
+                                    guard let firstEmptyFieldIndex = userAnswer2.firstIndex(where: { $0.isEmpty }) else {
+                                        return
+                                    }
+                                    if key != "Enter" {
+                                        userAnswer2[firstEmptyFieldIndex] = key
+                                    }
+                                }
+                            }
+                            
+                            if count == 3 {
+                                if key == "Delete" {
+                                    guard let lastNonEmptyFieldIndex = userAnswer3.lastIndex(where: { !$0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    userAnswer3[lastNonEmptyFieldIndex] = ""
+                                } else {
+                                    guard let firstEmptyFieldIndex = userAnswer3.firstIndex(where: { $0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    if key != "Enter" {
+                                        userAnswer3[firstEmptyFieldIndex] = key
+                                    }
+                                }
+                            }
+                            
+                            if count == 4 {
+                                if key == "Delete" {
+                                    guard let lastNonEmptyFieldIndex = userAnswer4.lastIndex(where: { !$0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    userAnswer4[lastNonEmptyFieldIndex] = ""
+                                } else {
+                                    guard let firstEmptyFieldIndex = userAnswer4.firstIndex(where: { $0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    if key != "Enter" {
+                                        userAnswer4[firstEmptyFieldIndex] = key
+                                    }
+                                }
+                            }
+                            
+                            if count == 5 {
+                                if key == "Delete" {
+                                    guard let lastNonEmptyFieldIndex = userAnswer5.lastIndex(where: { !$0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    userAnswer5[lastNonEmptyFieldIndex] = ""
+                                } else {
+                                    guard let firstEmptyFieldIndex = userAnswer5.firstIndex(where: { $0.isEmpty }) else {
+                                        return
+                                    }
+                                    
+                                    if key != "Enter" {
+                                        userAnswer5[firstEmptyFieldIndex] = key
+                                    }
+                                }
+                            }
+                            
+                        }) //: KEYBOARD
+                        .disabled(disableKeyboard)
+                        .opacity(disableKeyboard ? 0 : 1)
+                        //                        .offset(y: 45)
+                        
+                        if disableKeyboard {
+                            if isTipsPressed && viewModel.timeRemaining > 0 && !enterPressed5 {
+                                VStack {
+                                    ChatView(phrase: translations)
+                                        .offset(x: 50.27, y: 45)
+                                    Button {
+                                        isTipsPressed = false
+                                    } label: {
+                                        Image("Image 9")
+                                            .resizable()
+                                            .frame(width: 46, height: 46)
+                                    }
+                                    .offset(x: 87, y: -87) // 77 -15
+                                }
+                                
+                            } else {
+                                VStack {
+                                    ChatView(phrase: phrase)
+                                        .offset(x: 50.27, y: 45)
+                                    Button {
+                                        dismiss()
+                                    } label: {
+                                        Image("Image 9")
+                                            .resizable()
+                                            .frame(width: 46, height: 46)
+                                    }
+                                    .offset(x: -43, y: -15)
+                                }
+                            }
+                            
+                        }
+                    }//: ZSTACK
+                }
+            }//: VSTACK
+            .offset(y: viewModel.showTextField ? -70 : 0)
+        }//: ZSTACK
         .onAppear {
-            userAnswers = Array(repeating: "", count: numberOfColumns.max()! * words.count)
-            startTimer()
-        }
-    }
-    
-    private func allFieldsFilled() -> Bool {
-        for wordIndex in 0..<words.count {
-            let startIndex = wordIndex * numberOfColumns.max()!
-            let endIndex = startIndex + numberOfColumns[wordIndex]
-            if endIndex <= userAnswers.count && !userAnswers[startIndex..<endIndex].allSatisfy({ !$0.isEmpty }) {
-                return false
+            audioPlayer = AudioLoader.load(filename: "music1", fileType: "mp3")
+            audioPlayer1 = AudioLoader.load(filename: "music2", fileType: "mp3")
+            audioPlayer2 = AudioLoader.load(filename: "music3", fileType: "mp3")
+            
+            if let player = audioPlayer2 {
+                player.play()
+            }
+            if viewModel.selectedGameOption == 1 {
+                viewModel.startTimer() // calls functions to show the words
+                viewModel.startTimerView()
             }
         }
-        return true
-    }
-    
-    func startTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            if self.currentWordIndex < self.words.count - 1 {
-                self.currentWordIndex += 1
-            } else {
-                timer.invalidate()
-                self.showTextField = true
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("PlayMusicNotification"))) { _ in
+            if let player = audioPlayer1 {
+                player.play()
             }
         }
-    }
-    
-    private func areAnswersCorrect() -> Bool {
-        for wordIndex in 0..<words.count {
-            let startIndex = wordIndex * numberOfColumns.max()!
-            let endIndex = startIndex + numberOfColumns[wordIndex]
-            let userAnswerForWord = userAnswers[startIndex..<endIndex].joined().lowercased()
-            let correctAnswerForWord = words[wordIndex].lowercased()
-
-            if userAnswerForWord != correctAnswerForWord {
-                return false
-            }
-        }
-
-        return true
-    }
-
-    private func checkAnswer() {
-        let isCorrect = areAnswersCorrect()
-        feedbackMessage = isCorrect ? "Correto!" : "Errado!"
-    }
-    
-    private func isLetterCorrect(wordIndex: Int, letterIndex: Int, userAnswer: String) -> Bool {
-        let correctWord = words[wordIndex].lowercased()
-        
-        if letterIndex < correctWord.count {
-            let correctLetter = String(correctWord[correctWord.index(correctWord.startIndex, offsetBy: letterIndex)])
-            return userAnswer.lowercased() == correctLetter
-        }
-        
-        return false
-    }
-
-
-
-
-}
-
-class Coordinator: NSObject, UITextFieldDelegate {
-    var parent: TextView
-
-    init(_ parent: TextView) {
-        self.parent = parent
-    }
-
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let allowedCharacterSet = CharacterSet.letters
-
-        if string.isEmpty {
-            let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
-            parent.bindingText = newText
-        } else if string.count == 1, let newCharacter = string.first,
-            newCharacter.unicodeScalars.allSatisfy({ allowedCharacterSet.contains($0) }) {
-            let newText = (textField.text as NSString?)?.replacingCharacters(in: range, with: string) ?? ""
-            if newText.count == 1 {
-                parent.bindingText = newText
-                focusNextTextField(after: textField)
-            }
-        }
-
-        return false
-    }
-
-    func focusNextTextField(after textField: UITextField) {
-        guard let parentView = textField.superview,
-              let nextTextField = parentView.viewWithTag(textField.tag + 1) as? UITextField else {
-            return
-        }
-
-        nextTextField.becomeFirstResponder()
-    }
-
-
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        parent.onEditingChanged(true)
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        parent.onEditingChanged(false)
     }
 }
 
-struct TextView: UIViewRepresentable {
-    @Binding var bindingText: String
-    var onEditingChanged: (Bool) -> Void
-    var isCorrect: Bool
+extension GamingView {
+    var disableKeyboard: Bool {
+        if viewModel.timeRemaining == 0 || enterPressed5 || isTipsPressed {
+            return true
+        }
+        return false
+    }
     
-    func makeUIView(context: Context) -> UITextField {
-        let textField = UITextField()
-        textField.delegate = context.coordinator
-        textField.tag = context.coordinator.parent.bindingText.count
-        textField.textAlignment = .center
-        return textField
+    var gameEnd: Bool {
+        if viewModel.timeRemaining == 0 || enterPressed5 {
+            return true
+        }
+        return false
     }
-
-
-    func updateUIView(_ uiView: UITextField, context: Context) {
-        uiView.text = bindingText
-        uiView.textColor = isCorrect ? .green : .red
+    
+    var phrase: String {
+        if viewModel.timeRemaining == 0 {
+            return "\(Phrases.timesUP.randomElement() ?? "Time is up")"  + "\nThe words were: \(viewModel.word), \(viewModel.word1), \(viewModel.word2), \(viewModel.word3), \(viewModel.word4), \(viewModel.word5)"
+        } else if viewModel.areAllWordsCorrectAll(userAnswers: userAnswer, userAnswers1: userAnswer1, userAnswers2: userAnswer2, userAnswers3: userAnswer3, userAnswers4: userAnswer4, userAnswers5: userAnswer5) {
+            return "\(Phrases.correctPhrases.randomElement() ?? "All correct")" + "\nThe words were: \(viewModel.word), \(viewModel.word1), \(viewModel.word2), \(viewModel.word3), \(viewModel.word4), \(viewModel.word5)"
+        } else {
+            return "\(Phrases.someMistakes.randomElement() ?? "Some mistakes")" + "\nThe words were: \(viewModel.word), \(viewModel.word1), \(viewModel.word2), \(viewModel.word3), \(viewModel.word4), \(viewModel.word5)"
+        }
     }
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+    
+    var translations: String {
+        return """
+Here is the translations:
+\(viewModel.translations[viewModel.word.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word1.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word2.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word3.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word4.lowercased()]?.uppercased() ?? "No translatation")
+\(viewModel.translations[viewModel.word5.lowercased()]?.uppercased() ?? "No translatation")
+"""
+    }
+    
+    var explanation: String {
+        if explanationCount == 0 {
+            return "Hi! My name is Asheley, and I'm in college to become a Portuguese/English teacher. My boyfriend always struggled to study English in traditional schools;"
+        } else if explanationCount == 1{
+            return "their methods, focusing on spelling rules, ended up being a hindrance, so he couldn't learn. What helped him was writing key words in both Portuguese and English in his notebooks, and later revisiting those words,"
+        } else if explanationCount == 2{
+            return "thus helping to memorize English and understand their real meaning in the language. I noticed this frequently when I started having practical classes; students would get lost in all the grammar,"
+        } else if explanationCount == 3{
+            return "but advising them to do the same as Luan, they were able to feel a progress in memorization. In this regard, my boyfriend developed a game so that others could try this technique and hopefully help many more people gain access to English."
+        } else if explanationCount == 4{
+            return "The goal of the game is to help you learn English, using memorization techniques with the most used words in the language, the focus is for you to learn the essencial words to build a linguistic base for conversation, since the 1000 most used words are essential for a conversation to flow."
+        } else if explanationCount == 5{
+            return "6 words will automatically appear every 1 second, you must memorize them, after they all appear the game begins. You will have 60 seconds to fill in the fields with the 6 words."
+        } else {
+            return "The Enter key confirms the word and goes to the next line, you cannot go back after confirming, when you type the last word and press Enter the game ends. You can press the tips button to see the translation of the words in Portuguese.\n       Are you ready?"
+        }
     }
 }
 
 #Preview {
-    GamingView()
+    GamingView(userAnswer: ["..."], userAnswer1: ["..."], userAnswer2: ["..."], userAnswer3: ["..."], userAnswer4: ["..."], userAnswer5: ["..."])
 }
